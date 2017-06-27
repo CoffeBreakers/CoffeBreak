@@ -1,0 +1,46 @@
+{
+  "name": "coffee_break",
+  "version": "0.0.1",
+  "description": "A news summarizer and aggregator",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CoffeBreakers/CoffeBreak.git"
+  },
+  "keywords": [
+    "news",
+    "summry",
+    "user"
+  ],
+  "author": "Robin Mi, Cesar Avina, Sergey Shcherbakov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CoffeBreakers/CoffeBreak/issues"
+  },
+  "homepage": "https://github.com/CoffeBreakers/CoffeBreak#readme",
+  "dependencies": {
+    "axios": "^0.16.2",
+    "body-parser": "^1.17.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.3",
+    "express-session": "^1.15.3",
+    "mongoose": "^4.11.0",
+    "morgan": "^1.8.2",
+    "passport": "^0.3.2",
+    "passport-google-oauth": "^1.0.0",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "request": "^2.81.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "webpack": "^3.0.0"
+  }
+}
