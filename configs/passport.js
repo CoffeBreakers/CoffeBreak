@@ -4,13 +4,13 @@
 var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
 
 // load up the user model
-var db = require("../models");
+var user = require("../models/User.js");
 
 // load the auth variables
 
 
 if(!process.env.NODE_ENV){
-  var secrets = require('../config/secrets.js');
+  var secrets = require('../configs/secrets.js');
 }
 
 
