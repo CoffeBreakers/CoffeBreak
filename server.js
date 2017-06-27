@@ -26,19 +26,14 @@ app.use(bodyParser.urlencoded({
 
 // Make public a static dir
 app.use(express.static("public"));
-require('./configs/passport.js')(passport);
+
+//TODO: reenable the passport stuff. 
+//require('./configs/passport.js')(passport);
 app.use(logger('dev'));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
-}));
-app.use(sassMiddleware({
-  src: path.join(__dirname, 'public'),
-  dest: path.join(__dirname, 'public'),
-  outputStyle: 'expanded',
-  indentedSyntax: false, // true = .sass and false = .scss
-  sourceMap: true
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
@@ -46,7 +41,6 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(flash());
 
 // Database configuration with mongoose
 //if in production, set uri to be production env variable, otherwise connect to the localhost uri. 

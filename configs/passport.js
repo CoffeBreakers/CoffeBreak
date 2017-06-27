@@ -46,7 +46,6 @@ module.exports = function(passport) {
         clientSecret    : process.env.google_client_secret || secrets.secrets.CLIENT_SECRET,
         callbackURL     : process.env.callback_url || secrets.secrets.CALLBACK_URL,
         passReqToCallback : true
-
     },
     function(req, token, refreshToken, profile, done) {
         // console.log("req: " + JSON.stringify(req.body));
