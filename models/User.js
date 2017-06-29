@@ -8,21 +8,31 @@ var Schema = mongoose.Schema;
 // Create article schema
 var UserSchema = new Schema({
   // title is a required string
-  title: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  // date is a date type
-  date: {
-    type: Date,
-    required: true
-  },
-  // This only saves one note's ObjectId, ref refers to the Note model
-  url: {
+  user_name: {
     type: String,
     required: true
+  },
+  
+  googleID: 
+  {
+      type: String
+  },
+
+  token:
+  {
+      type: String
+  },
+
+  email:
+  {
+      type: String
+  },
+
+  photo:
+  {
+    type: String
   }
+
 });
 
 // Create the Article model with the ArticleSchema

@@ -27,8 +27,8 @@ app.use(bodyParser.urlencoded({
 // Make public a static dir
 app.use(express.static("public"));
 
-//TODO: reenable the passport stuff. 
-//require('./configs/passport.js')(passport);
+
+require('./configs/passport.js')(passport);
 app.use(logger('dev'));
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -66,11 +66,12 @@ db.once("open", function()
 // ======
 require("./routes/html-routes.js")(app, db);
 require("./routes/api-routes.js")(app, db);
+require("./routes/login-routes.js")(app, db, passport);
 
 //sets port variable to process.env.port if exists or 3000 if not. 
 const PORT = process.env.PORT || 3000;
 // Listen on port 3000
 app.listen(PORT, function() 
 {
-  console.log("App running on port 3000!");
+  console.log("App running on " + PORT);
 });
