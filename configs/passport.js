@@ -1,14 +1,10 @@
-// config/passport.js
-
-// load all the things we need
+// load all the things we need for Google Auth
 var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
 
 // load up the user model
 var User = require("../models/User.js");
 
 // load the auth variables
-
-
 if(!process.env.NODE_ENV){
   var secrets = require('../configs/secrets.js');
 }
@@ -44,9 +40,9 @@ module.exports = function(passport) {
     },
     function(req, token, refreshToken, profile, done) {
         // console.log("req: " + JSON.stringify(req.body));
-        console.log("token: " + JSON.stringify(token));
+        //console.log("token: " + JSON.stringify(token));
         // console.log("refresh token: " + JSON.stringify(refreshToken));
-        console.log("profile: " + JSON.stringify(profile));
+        console.log("profile: " + JSON.stringify(profile, null, 4));
         // console.log("done: " + JSON.stringify(done));
         // console.log("\n\n==============================================")
         //make the code asynchronous
@@ -63,12 +59,14 @@ module.exports = function(passport) {
                 }
                 else
                 {
+                    // if the user is found, then just return that user. 
                     if(user != undefined && user != null && user.length > 0)
                     {
-                        return done(null, user);
+                        return done(null, user[0]);
                     }
                     else
                     {
+                        //code for creation of a new user object that will be created. 
                         var newUser = new User();
                         newUser.googleID = profile.id;
                         newUser.token = token;
@@ -96,4 +94,5 @@ module.exports = function(passport) {
 
     }));
 
+    //=======================================END GOOGLE===============================================//
 };
