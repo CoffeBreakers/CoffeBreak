@@ -4,7 +4,7 @@
 var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
 
 // load up the user model
-var user = require("../models/User.js");
+var User = require("../models/User.js");
 
 // load the auth variables
 
@@ -26,66 +26,72 @@ module.exports = function(passport) {
     // used to deserialize the user
     passport.deserializeUser(function(id, done) {
         // console.log("in deserialize");
-        db.User.findAll(
-                {
-                    where: {id: id}
-                }).then(function(dbUser) 
-                {
-                    var temp = dbUser[0].dataValues;
-                    
-                    var user = {user_name: temp.user_name, email: temp.email, wins: temp.wins, photo: temp.photo}
-                    done(null, user);
-                });
+        User.findById(id, function(err, user) 
+        {
+            done(err, user);
+        });
     });
 
     // =========================================================================
     // GOOGLE ==================================================================
     // =========================================================================
+    console.log(secrets);
     passport.use(new GoogleStrategy({
-        clientID        : process.env.google_client_id || secrets.secrets.CLIENT_ID,
-        clientSecret    : process.env.google_client_secret || secrets.secrets.CLIENT_SECRET,
-        callbackURL     : process.env.callback_url || secrets.secrets.CALLBACK_URL,
+        clientID        : process.env.google_client_id || secrets.config.googleClientID,
+        clientSecret    : process.env.google_client_secret || secrets.config.googleClientSecret,
+        callbackURL     : process.env.callback_url || secrets.config.CALLBACK_URL,
         passReqToCallback : true
     },
     function(req, token, refreshToken, profile, done) {
         // console.log("req: " + JSON.stringify(req.body));
-        // console.log("token: " + JSON.stringify(token));
+        console.log("token: " + JSON.stringify(token));
         // console.log("refresh token: " + JSON.stringify(refreshToken));
-        // console.log("profile: " + JSON.stringify(profile));
+        console.log("profile: " + JSON.stringify(profile));
         // console.log("done: " + JSON.stringify(done));
         // console.log("\n\n==============================================")
         //make the code asynchronous
         //User.findOne won't fire until we have all our data back from Google
-        process.nextTick(function() {
-
-            // try to find the user based on their google id
-                db.User.findAll(
+        process.nextTick(function() 
+        {
+            User.find({googleID: profile.id }, function(err, user)
+            {
+                console.log(user);
+                if(err)
                 {
-                    where: {googleID: profile.id}
-                }).then(function(dbUser)
+                console.log(err);
+                res.status(500).send(err);
+                }
+                else
                 {
-                    if (dbUser.length > 0)
+                    if(user != undefined && user != null && user.length > 0)
                     {
-                        // console.log("found user");
-                        // console.log(dbUser);
-                        return done(null, dbUser[0]);;
+                        return done(null, user);
                     }
                     else
                     {
-                        // console.log("did not find user");
-                        db.User.create(
+                        var newUser = new User();
+                        newUser.googleID = profile.id;
+                        newUser.token = token;
+                        newUser.user_name = profile.displayName;
+                        newUser.email = profile.emails[0].value;
+                        newUser.photo = profile.photos[0].value;
+                        
+                        User.create(newUser, function(err, user)
                         {
-                        googleID : profile.id,
-                        token : token,
-                        user_name : profile.displayName,
-                        email : profile.emails[0].value, // pull the first email
-                        photo: profile.photos[0].value
-                        }).then(function(dbUser)
-                        {
-                            return done(null, dbUser.dataValues);
+                            if(err)
+                            {
+                            console.log(err);
+                            res.status(500).send(err);
+                            }
+                            else
+                            {
+                            console.log("returned user = " + user);
+                            return done(null, user);
+                            }
                         });
                     }
-                })
+                }
+            });
         });
 
     }));
