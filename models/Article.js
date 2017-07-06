@@ -8,19 +8,26 @@ var ArticleSchema = new Schema({
   // title is a required string
   title: {
     type: String,
-    required: true,
-    unique: true
+    required: true
   },
   // date is a date type
   date: {
     type: Date,
     required: true
   },
-  // This only saves one note's ObjectId, ref refers to the Note model
+  // this saves the url
   url: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  //Stores the category that the article is. 
+  category: {
     type: String,
     required: true
   }
+
+
 });
 
 // Create the Article model with the ArticleSchema

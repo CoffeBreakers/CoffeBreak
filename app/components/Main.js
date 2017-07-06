@@ -2,14 +2,12 @@
 var React = require("react");
 
 // Here we include all of the sub-components
+var ArticlesChildren = require("./children/ArticlesChildren");
 
 
-var Form = require("./children/Form");
-var Results = require("./children/Results");
 
 // Helper Function
 var helpers = require("./utils/helpers.js");
-var Article = require("./Article.js");
 // This is the main component.
 var Main = React.createClass({
 
@@ -17,7 +15,13 @@ var Main = React.createClass({
 
   // Here we set a generic state associated with the number of clicks
   getInitialState: function() {
-    return { searchTerm: "", begin_date: 0, end_date: 0, results: [], saved: [] };
+    var articles = []
+    for(var i = 0; i < 9; i++)
+    {
+      var temp = {title: "test", url: "test.com", date: "2017-01-01", category: "test-category"}
+      articles.push(temp);
+    }
+    return { user: {}, articles: articles};
   },
 
   //componentDidMount will run when the components load. This code will be run to get saved articles. 
@@ -25,52 +29,17 @@ var Main = React.createClass({
   {
     //first time the component rendered
     //We get the saved articles, then set results array with the response data which should be a list of all articles. 
-    helpers.getArticles().then(function(response)
+    helpers.getUser().then(function(response)
     {
-      if(response !== this.state.history)
+      console.log("getting user");
+      if(response.data !== this.state.history)
       {
-        this.setState({results: response.data});
+        console.log(response);
+        this.setState({user: response.data});
       }
     }.bind(this));
   },
 
-  //If the component updates we'll run this code
-  componentDidUpdate: function(prevProps, prevState) {
-
-    if (prevState.searchTerm !== this.state.searchTerm) {
-      console.log("UPDATED");
-
-      helpers.runQuery({q: this.state.searchTerm, begin_date: this.state.begin_date, end_date: this.state.end_date}).then(function(data) {
-        if (data !== this.state.results) {
-          console.log("HERE");
-          console.log(data);
-
-          this.setState({ results: data });
-        }
-        // This code is necessary to bind the keyword "this" when we say this.setState
-        // to actually mean the component itself and not the runQuery function.
-      }.bind(this));
-
-        //hoping to attach to the event that runs query for search.
-        //this will save an article.  
-      // helpers.saveArticle(article).then(function(data)
-      // {
-      //   console.log("Search Saved");
-      //   console.log(JSON.stringify(data, null, 2));
-
-      //   helpers.getArticles().then(function(data)
-      //   {
-      //     this.setState({results: data.data});
-      //   }.bind(this));
-      // }.bind(this));
-
-      
-    }
-  },
-  //We use this function to allow children to update the parent with searchTerms.
-  setTerm: function(search) {
-    this.setState({ searchTerm: search.term, begin_date: search.begin, end_date: search.end });
-  },
 
   // Here we describe this component's render method
   render: function() {
@@ -79,23 +48,26 @@ var Main = React.createClass({
 
         <div className="row">
 
-          <div className="jumbotron">
-            <h2 className="text-center">NYT Search!</h2>
-            <p className="text-center">
-              <em>Search for a topic on the New York Times</em>
-            </p>
-          </div>
+          <nav className="navbar navbar-default">
+            <div className="container-fluid">
+              
+              <div className="navbar-header">
+                <a className="navbar-brand" href="#">CoffeeBreak</a>
+              </div>
 
-          <div className="col-md-6">
+              
+              <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                
+                <h4 className="navbar-text">Welcome to your coffeebreak, {this.state.user.user_name} </h4>
+                <ul className="nav navbar-nav navbar-right">
+                  <li><a href="/auth/google">Login</a></li>
+                </ul>
+              </div>
+            </div>
+          </nav>
 
-            <Form setTerm={this.setTerm} />
-
-          </div>
-
-          <div className="col-md-6">
-
-            <Results results={this.state.results}/>
-
+          <div className = "jumbotron">
+            <ArticlesChildren articles={this.state.articles} />
           </div>
 
           <div className = "row">
