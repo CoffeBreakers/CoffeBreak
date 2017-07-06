@@ -26,6 +26,11 @@ var helpers = {
   runQuery: function(query)
   {
     return axios.post("/api/search", query);
+  },
+
+  getUser: function(query)
+  {
+    return axios.get("/api/user");
   }
 
   
