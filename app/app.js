@@ -1,13 +1,29 @@
 // Include the Main React Dependencies
 var React = require("react");
 var ReactDOM = require("react-dom");
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
+//Imports for materialUI
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+//Injecting Tap Event
+injectTapEventPlugin();
 
 // Include the Main Component
 var Main = require("./components/Main");
 
-// This code here allows us to render our main component (in this case "Main")
-ReactDOM.render(<Main />, document.getElementById("app"));
+const App = () => (
+  <MuiThemeProvider>
+    <Main />
+  </MuiThemeProvider>
+);
 
+// This code here allows us to render our main component (in this case "Main")
+ReactDOM.render(<App />, document.getElementById("app"));
 
 //design guide: 
 //Search component, will hold both forms and results component

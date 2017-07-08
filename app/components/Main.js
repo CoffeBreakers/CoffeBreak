@@ -1,9 +1,15 @@
 // Include React
 var React = require("react");
 
+//import materialUI components
+import FlatButton from 'material-ui/FlatButton';
+import AppBar from 'material-ui/AppBar';
+import IconButton from 'material-ui/IconButton';
+import NavigationExpandMore from 'material-ui/svg-icons/navigation/expand-more'
+import NavigationClose from 'material-ui/svg-icons/navigation/close';
 // Here we include all of the sub-components
 var ArticlesChildren = require("./children/ArticlesChildren");
-
+var NameSlot = require("./children/NameSlot");
 
 
 // Helper Function
@@ -18,7 +24,7 @@ var Main = React.createClass({
     var articles = []
     for(var i = 0; i < 9; i++)
     {
-      var temp = {title: "test", url: "test.com", date: "2017-01-01", category: "test-category"}
+      var temp = {title: "test"+i, url: "test.com", date: "2017-01-01", category: "test-category", img: "http://lorempixel.com/200/200"}
       articles.push(temp);
     }
     return { user: {}, articles: articles};
@@ -47,39 +53,34 @@ var Main = React.createClass({
       <div className="container">
 
         <div className="row">
-
-          <nav className="navbar navbar-default">
-            <div className="container-fluid">
-              
-              <div className="navbar-header">
-                <a className="navbar-brand" href="#">CoffeeBreak</a>
-              </div>
-
-              
-              <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                
-                <h4 className="navbar-text">Welcome to your coffeebreak, {this.state.user.user_name} </h4>
-                <ul className="nav navbar-nav navbar-right">
-                  <li><a href="/auth/google">Login</a></li>
-                </ul>
-              </div>
-            </div>
-          </nav>
-
+          <AppBar
+            title= {<NameSlot/>}
+            iconElementLeft={<IconButton><NavigationExpandMore /></IconButton>}
+            iconElementRight={<FlatButton label="Login" href="/auth/google"/>}
+          />  {/* end appbar */}
+  
           <div className = "jumbotron">
             <ArticlesChildren articles={this.state.articles} />
-          </div>
+          </div> {/* end jumbotron */}
 
           <div className = "row">
             
           </div>
 
-        </div>
+        </div> {/* end jumbotron */}
 
-      </div>
+      </div> //end Container
     );
   }
 });
+
+const styles = {
+  title: {
+    cursor: 'pointer',
+  },
+};
+
+
 
 // Export the component back for use in other files
 module.exports = Main;

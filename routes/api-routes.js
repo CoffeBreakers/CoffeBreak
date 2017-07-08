@@ -73,7 +73,8 @@ module.exports = function(app, db)
             'api-key': Secrets.nyt_key,
             'q': req.body.q,
             'begin_date': req.body.begin_date,
-            'end_date': req.body.end_date
+            'end_date': req.body.end_date,
+            'section': 'Movies'
         },
         }, function(err, response, body) {
         body = JSON.parse(body);

@@ -25,6 +25,11 @@ var ArticleSchema = new Schema({
   category: {
     type: String,
     required: true
+  },
+
+  text: {
+    type: String,
+    required: true
   }
 
 
