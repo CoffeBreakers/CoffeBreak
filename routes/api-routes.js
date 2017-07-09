@@ -65,7 +65,6 @@ module.exports = function(app, db)
     app.post("/api/search", function(req, res)
     {
         console.log(req.body);
-        var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json"
         
         request.get({
         url: "https://api.nytimes.com/svc/search/v2/articlesearch.json",
