@@ -6,12 +6,42 @@ import {GridList, GridTile} from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
 import Subheader from 'material-ui/Subheader';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+import NavigationExpandMore from 'material-ui/svg-icons/navigation/expand-more'
+import Dialog from 'material-ui/Dialog';
+
+//include the article modal
+import ArticleModal from "./ArticleModal";
 
 // Creating the Results component
-var Results = React.createClass({
+// var ArticlesChildren = React.createClass({
+  
+export default class ArticlesChildren extends React.Component {
+  constructor(props) {
+        super(props);
+        this.state = {
+          SelectedArticle: {}, 
+          ModalOpen: false
+        };
+  }
+
+//on tapping a grid, opens the modal containing article details. 
+handleTouchTap(article)
+{
+  //console.log(JSON.stringify(article, null, 2));
+  this.setState({SelectedArticle: article});
+  this.setState({ModalOpen : true});
+}
+
+//on clicking close modal. 
+closeModal()
+{
+  console.log("signal received to close modal")
+  this.setState({ModalOpen: false});
+}
 
   // Here we describe this component's render method
-  render: function() {
+  render() {
+    
     return (
         <div style={styles.root}>
             <GridList
@@ -25,16 +55,21 @@ var Results = React.createClass({
                 key={article.title}
                 title={<a href= {article.url}>{article.title}</a>}
                 subtitle={<span>Category: <b>{article.category}</b>, Published on: <b>{article.date}</b></span>}
-                actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
+                actionIcon={<IconButton><NavigationExpandMore color="white" /></IconButton>}
+                titleBackground="linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
+                onTouchTap={() => this.handleTouchTap(article)}
                 >
                 <img src={article.img} />
                 </GridTile>
             ))}
             </GridList>
+            <ArticleModal closeModal= {() => this.closeModal()} article={this.state.SelectedArticle} open={this.state.ModalOpen}/>
         </div>
     );
   }
-});
+};
+
+
 
 //Styles
 const styles = {
@@ -51,8 +86,6 @@ const styles = {
   },
 };
 
-// Export the component back for use in other files
-module.exports = Results;
 
 
 //Old Render Function
