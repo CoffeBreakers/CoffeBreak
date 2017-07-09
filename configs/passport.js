@@ -31,7 +31,7 @@ module.exports = function(passport) {
     // =========================================================================
     // GOOGLE ==================================================================
     // =========================================================================
-    console.log(secrets);
+    //console.log(secrets);
     passport.use(new GoogleStrategy({
         clientID        : process.env.google_client_id || secrets.config.googleClientID,
         clientSecret    : process.env.google_client_secret || secrets.config.googleClientSecret,
@@ -42,7 +42,7 @@ module.exports = function(passport) {
         // console.log("req: " + JSON.stringify(req.body));
         //console.log("token: " + JSON.stringify(token));
         // console.log("refresh token: " + JSON.stringify(refreshToken));
-        console.log("profile: " + JSON.stringify(profile, null, 4));
+        //console.log("profile: " + JSON.stringify(profile, null, 4));
         // console.log("done: " + JSON.stringify(done));
         // console.log("\n\n==============================================")
         //make the code asynchronous
@@ -51,10 +51,10 @@ module.exports = function(passport) {
         {
             User.find({googleID: profile.id }, function(err, user)
             {
-                console.log(user);
+                //console.log(user);
                 if(err)
                 {
-                console.log(err);
+                //console.log(err);
                 res.status(500).send(err);
                 }
                 else
@@ -83,7 +83,7 @@ module.exports = function(passport) {
                             }
                             else
                             {
-                            console.log("returned user = " + user);
+                            //console.log("returned user = " + user);
                             return done(null, user);
                             }
                         });
