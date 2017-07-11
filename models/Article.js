@@ -13,7 +13,7 @@ var ArticleSchema = new Schema({
   // date is a date type
   date: {
     type: Date,
-    required: true
+    required: false
   },
   // this saves the url
   url: {
@@ -21,7 +21,7 @@ var ArticleSchema = new Schema({
     required: true,
     unique: true
   },
-  //Stores the category that the article is. 
+  //Stores the category that the article is.
   category: {
     type: String,
     required: true
@@ -29,7 +29,7 @@ var ArticleSchema = new Schema({
 
   text: {
     type: String,
-    required: true
+    required: false
   },
 
   img: {

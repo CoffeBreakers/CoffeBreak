@@ -29,10 +29,10 @@ module.exports = function(app, db)
 //  * `/api/saved` (post) - your components will use this to save an article to the database
     app.post("/api/saved", function(req, res)
     {
-        console.log("request body: "+ JSON.stringify(req.body));
+        console.log("request body: ", req.body);
         var newArticle = new Article(req.body);
         console.log("new Article: " + JSON.stringify(newArticle, null, 2));
-        Article.save(newArticle, function(err, doc)
+        Article.create(newArticle, function(err, doc)
         {
             if(err)
             {
