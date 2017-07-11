@@ -1,4 +1,6 @@
 // load all the things we need for Google Auth
+var LocalStrategy = require("passport-local").Strategy;
+
 var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
 
 // load up the user model
@@ -27,6 +29,92 @@ module.exports = function(passport) {
             done(err, user);
         });
     });
+
+    // =========================================================================
+    // LOCAL ==================================================================
+    // =========================================================================
+
+    // 	passport.use('local-signup',new LocalStrategy({
+	// 	usernameField:'email',
+	// 	passwordField:'password',
+	// 	passReqToCallback:true
+	// },
+	// function(req,email,password,done){
+		
+	// 	User.findOne({'local.username':email},function(err,user){
+	// 			if(err)
+	// 				return done(err);
+	// 			if(user){
+	// 				return done(null,false,req.flash("signupMessage","That email already taken"))
+	// 			}
+	// 			if(!req.user){
+	// 				var newuser = new User();
+	// 				newuser.local.username = email;
+	// 				newuser.local.password = password;
+	// 				bcrypt.genSalt(10, function(err, salt) {
+	// 				    bcrypt.hash(newuser.local.password, salt, function(err, hash) {
+					    	
+	// 				        newuser.local.password = hash;
+	// 				        console.log(newuser,"newuser")
+	// 				        newuser.save(function(err,user){
+	// 							if(err) throw err;
+	// 							return done(null,newuser);
+	// 						})
+	// 				    });
+	// 				});
+	// 			}else{
+	// 				var newuser = req.user;
+	// 				console.log(newuser,"newuser")
+	// 				newuser.local.username = email;
+	// 				newuser.local.password = password;
+	// 				newuser.save(function(err){
+	//     				if(err)
+	//     					throw err;
+	//     				return done(null,newuser)
+
+	//     			})
+	// 			}
+	// 		})
+		
+	// }
+
+	// ))
+
+	// passport.use("local-login",new LocalStrategy({
+	// 	usernameField:'email',
+	// 	passwordField:'password',
+	// 	passReqToCallback:true
+	// },
+	// function(req,email,password,done){
+	// 	process.nextTick(function(){
+	// 		User.findOne({'local.username':email},function(err,user){	
+	// 			if(err)
+	// 				return done(err);
+	// 			if(!user)
+	// 				return done(null,false,req.flash("loginMessage","No user found"))
+				
+	// 			bcrypt.compare(password, user.local.password, function(err, res) {
+					
+	// 			   if(err) throw err;
+	// 		   		if(res){
+	// 		   			console.log(req.user,"req")
+	// 		   			return done(null, user);
+	// 		   		} else {
+	// 		   			return done(null, false, req.flash("loginMessage","Invalid password"));
+	// 		   		}
+	// 			});
+	// 		})
+	// 	})
+	// }
+	// ))
+
+    // =========================================================================
+    // END LOCAL ==================================================================
+    // =========================================================================
+
+
+
+
 
     // =========================================================================
     // GOOGLE ==================================================================
