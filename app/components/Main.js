@@ -9,6 +9,7 @@ import NavigationExpandMore from 'material-ui/svg-icons/navigation/expand-more'
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 // Here we include all of the sub-components
 import ArticlesChildren from "./children/ArticlesChildren";
+import Avatar from "./children/AppbarChildren/Avatar";
 var NameSlot = require("./children/NameSlot");
 
 
@@ -57,7 +58,8 @@ var Main = React.createClass({
           <AppBar
             title= {<NameSlot user_name={this.state.user.user_name}/>}
             iconElementLeft={<IconButton><NavigationExpandMore /></IconButton>}
-            iconElementRight={<FlatButton label="Login" href="/auth/google"/>}
+            iconElementRight={(this.state.user !== null) ? <Avatar user={this.state.user}/> : <FlatButton label="Login" href="/auth/google"/>}
+            iconStyleRight={{"margin": "0 auto"}}
           />  {/* end appbar */}
   
           <div className = "jumbotron">

@@ -45,7 +45,7 @@ closeModal()
     return (
         <div style={styles.root}>
             <GridList
-            cellHeight={300}
+            cellHeight={250}
             cols={3}
             style={styles.gridList}
             >
