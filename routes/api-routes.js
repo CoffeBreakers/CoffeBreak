@@ -6,7 +6,7 @@ var Secrets = require("../configs/secrets.js");
 var request = require("request");
 // Routes
 // =============================================================
-module.exports = function(app, db) 
+module.exports = function(app, db)
 {
 //     `/api/saved` (get) - your components will use this to query MongoDB for all saved articles
     app.get("/api/saved", function(req, res)
@@ -31,7 +31,7 @@ module.exports = function(app, db)
         console.log("request body: "+ JSON.stringify(req.body));
         var newArticle = new Article(req.body);
         console.log("new Article: " + JSON.stringify(newArticle, null, 2));
-        Article.create(newArticle, function(err, doc)
+        Article.save(newArticle, function(err, doc)
         {
             if(err)
             {
@@ -50,7 +50,7 @@ module.exports = function(app, db)
     {
         Article.remove({"_id": req.body._id}, function(err, data)
         {
-            if (err) 
+            if (err)
             {
             res.status(500);
             console.log(err);
@@ -62,22 +62,22 @@ module.exports = function(app, db)
         });
     })
 
-    app.post("/api/search", function(req, res)
+    app.get("/api/home", function(req, res)
     {
-        console.log(req.body);
-        
-        request.get({
-        url: "https://api.nytimes.com/svc/search/v2/articlesearch.json",
-        qs: {
-            'api-key': Secrets.nyt_key,
-            'q': req.body.q,
-            'begin_date': req.body.begin_date,
-            'end_date': req.body.end_date,
-            'section': 'Movies'
-        },
-        }, function(err, response, body) {
-        body = JSON.parse(body);
-        console.log(body);
-        })
-    })
-};
+    var categories = ['business', 'movies', 'arts','travel', 'world', 'politics', 'business','science','sports','fashion']
+        // console.log(req.body);
+        for (var i = 0; i < categories.length; i++){
+          request.get({
+            url: "http://api.nytimes.com/svc/topstories/v2/" + categories[i] + ".json",
+            qs: {
+              //  'api-key': Secrets.nyt_key,
+              'api-key': Secrets.config.nyt_key,
+            }
+          }, function(err, response, body) {
+            body = JSON.parse(body);
+            // console.log(body);
+            console.log('RESPONSE: ', body)
+          })
+        }
+   })
+}
