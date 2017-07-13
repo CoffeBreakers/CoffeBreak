@@ -21,4 +21,28 @@ module.exports = function(app, db, passport)
         req.logout();
         res.redirect('/');
     });
+
+	app.get('/signup',function(req,res){
+		res.render("signup",{message:req.flash('signupMessage')})
+	})
+
+	app.get('/login',function(req,res){
+		res.render("login",{message:req.flash("loginMessage")})
+	})
+
+	app.post('/signup', passport.authenticate('local-signup', {
+		successRedirect: '/',
+		failureRedirect: '/signup',
+		failureFlash: true
+	}));
+
+	app.post('/login', passport.authenticate('local-login', {
+		successRedirect: '/profile',
+		failureRedirect: '/login',
+		failureFlash: true
+	}));
+
+	app.get('/profile',isLoggedIn,function(req,res){
+		res.render("profile",{user:req.user})
+	})
 }
