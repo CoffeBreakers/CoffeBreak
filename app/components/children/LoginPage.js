@@ -24,6 +24,9 @@ export default class PopoverExampleSimple extends React.Component {
       console.log("submitting " + user_name + " password: " + password);
   }
 
+  goToGoogle() {
+
+  }
 
   render() {
       return (
@@ -60,8 +63,14 @@ export default class PopoverExampleSimple extends React.Component {
                 Submit
               </button>
               
+              
             </div>
           </form>
+          <a href= "/auth/google"> <button
+                className="btn btn-primary"
+                >
+                Login With Google
+                </button></a>
         </div>
       </div>
       )
