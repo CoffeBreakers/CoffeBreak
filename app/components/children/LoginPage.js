@@ -1,79 +1,67 @@
 import React from 'react';
+import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
 
-
-export default class PopoverExampleSimple extends React.Component {
+export default class LoginPage extends React.Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
-          user_name: "Login Name", 
-          password: "*****"
+          user_name: "", 
+          password: ""
         };
   };
 
-  changeUserName(event) {
+  changeUserName(event, newValue) {
     this.setState({ user_name: event.target.value });
   }
 
-  changePassword(event) {
+  changePassword(event, newValue) {
     this.setState({ password: event.target.value });
   }
 
-  handleSubmit() {
-      console.log("submitting " + user_name + " password: " + password);
+  handleSubmit(event) {
+    event.preventDefault();
+      console.log("submitting " + this.state.user_name + " password: " + this.state.password);
   }
 
-  goToGoogle() {
+  goToGoogle(event) {
+      event.preventDefault();
+      window.location = '/auth/google';
+  }
 
+  handleCreateLocalAccount(event) {
+    event.preventDefault();
+    console.log("creating new Account with username: " + this.state.user_name + " password: " + this.state.password);
   }
 
   render() {
       return (
-      <div className="panel panel-default">
-        <div className="panel-heading">
-          <h3 className="panel-title text-center">Login</h3>
+        <div>
+          <TextField
+          hintText="Enter your Username"
+          floatingLabelText="Username"
+          onChange = {(event,newValue) => this.changeUserName(event, newValue)}
+          />
+          <br/>
+          <TextField
+            type="password"
+            hintText="Enter your Password"
+            floatingLabelText="Password"
+            onChange = {(event,newValue) => this.changePassword(event, newValue)}
+            />
+          <br/>
+          <RaisedButton label="Submit" primary={true} style={style} onClick={(event) => this.handleSubmit(event)}/>
+          <RaisedButton label="Create Account" primary={true} style={style} onClick={(event) => this.handleCreateLocalAccount(event)}/>
+          <RaisedButton label="Sign in to Google" primary={true} style={style} onClick={(event) => this.goToGoogle(event)}/>
         </div>
-        <div className="panel-body text-center">
-          <form onSubmit={this.handleSubmit}>
-            <div className="form-group">
-
-              <input
-                value={this.state.user_name}
-                type="text"
-                className="form-control text-center"
-                id="userName"
-                onChange={this.changeUserName}
-                required
-              />
-              <input
-                value={this.state.password}
-                type="password"
-                className="form-control text-center"
-                id="password"
-                onChange={this.changePassword}
-                required
-              />
-              
-              <br />
-              <button
-                className="btn btn-primary"
-                type="submit"
-              >
-                Submit
-              </button>
-              
-              
-            </div>
-          </form>
-          <a href= "/auth/google"> <button
-                className="btn btn-primary"
-                >
-                Login With Google
-                </button></a>
-        </div>
-      </div>
       )
   }
 
 }
+
+const style = {
+  margin: 15,
+};
+

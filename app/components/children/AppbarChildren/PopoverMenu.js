@@ -4,7 +4,11 @@ import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 
-export default class PopoverExampleSimple extends React.Component {
+import {
+  Link
+} from 'react-router-dom'
+
+export default class PopoverMenu extends React.Component {
 
   constructor(props) {
     super(props);
@@ -22,8 +26,7 @@ export default class PopoverExampleSimple extends React.Component {
           onRequestClose={() => this.props.compressPopover()}
         >
           <Menu>
-            <MenuItem primaryText="Profile" />
-            
+            <MenuItem primaryText="Profile" containerElement={<Link to="/profile" onTouchTap={() => this.props.compressPopover()}/>}/>
             <MenuItem primaryText="Sign out" onTouchTap={()=> this.props.logOut()}/>
           </Menu>
         </Popover>

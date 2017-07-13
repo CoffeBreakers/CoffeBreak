@@ -12,6 +12,7 @@ import ArticlesChildren from "./children/ArticlesChildren";
 import Avatar from "./children/AppbarChildren/Avatar";
 import PopoverMenu from "./children/AppbarChildren/PopoverMenu";
 import LoginPage from "./children/LoginPage";
+import ProfilePage from "./children/ProfilePage";
 var NameSlot = require("./children/NameSlot");
 
 //Adding React Router Stuff
@@ -74,6 +75,7 @@ var Main = React.createClass({
     helpers.logoutUser().then((response)=>
     {
       this.setState({user: {}});
+      this.compressPopover();
     });
   },
 
@@ -95,6 +97,7 @@ var Main = React.createClass({
 
             <Route exact path="/" component={() => <ArticlesChildren articles={this.state.articles}/>}/>
             <Route path="/login" component={LoginPage}/>
+            <Route path="/profile" component={() => <ProfilePage user={this.state.user}/>}/>
           </div> {/* end jumbotron */}
 
 
