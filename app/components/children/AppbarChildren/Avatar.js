@@ -28,24 +28,28 @@ export default class ArticleModal extends React.Component {
     }
 
 render() {
+  // console.log("this is the user in avatar")
+  // console.log(JSON.stringify(this.props.user, null, 2));
     return(
     <List style={listStyle}>
       <ListItem
         disabled={false}
         style={{"margin": '3 auto'}}
+        onTouchTap={this.props.expandPopover}
         leftAvatar={(this.props.user.photo)?
           <Avatar 
           src={this.props.user.photo} 
           style={style}
-          />:
+          />
+          :
           <Avatar
           color={deepOrange300}
           backgroundColor={purple500}
           size={30}
           style={style}
-        >
-          {this.props.user.user_name[0]}
-        </Avatar>
+          >
+            {this.props.user_name}
+          </Avatar>
         }
       >
       Account Settings
