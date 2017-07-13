@@ -12,6 +12,12 @@ var helpers = {
   getUser: function(query)
   {
     return axios.get("/api/user");
+  },
+
+  logoutUser: function()
+  {
+    console.log("logging out");
+    return axios.get('/logout');
   }
 };
 

@@ -35,7 +35,7 @@ handleTouchTap(article)
 //on clicking close modal. 
 closeModal()
 {
-  console.log("signal received to close modal")
+  //console.log("signal received to close modal")
   this.setState({ModalOpen: false});
 }
 

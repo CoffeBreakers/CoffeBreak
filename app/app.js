@@ -16,6 +16,8 @@ injectTapEventPlugin();
 // Include the Main Component
 var Main = require("./components/Main");
 
+import { BrowserRouter } from 'react-router-dom'
+
 const App = () => (
   <MuiThemeProvider>
     <Main />
@@ -23,7 +25,13 @@ const App = () => (
 );
 
 // This code here allows us to render our main component (in this case "Main")
-ReactDOM.render(<App />, document.getElementById("app"));
+ReactDOM.render((
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+), document.getElementById("app"));
+
+//ReactDOM.render(<App />, document.getElementById("app"));
 
 //design guide: 
 //Search component, will hold both forms and results component

@@ -4,6 +4,7 @@
 var Article = require("../models/Article.js");
 var Secrets = require("../configs/secrets.js");
 var request = require("request");
+
 // Routes
 // =============================================================
 module.exports = function(app, db)

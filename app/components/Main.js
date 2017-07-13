@@ -10,8 +10,16 @@ import NavigationClose from 'material-ui/svg-icons/navigation/close';
 // Here we include all of the sub-components
 import ArticlesChildren from "./children/ArticlesChildren";
 import Avatar from "./children/AppbarChildren/Avatar";
+import PopoverMenu from "./children/AppbarChildren/PopoverMenu";
+import LoginPage from "./children/LoginPage";
 var NameSlot = require("./children/NameSlot");
 
+//Adding React Router Stuff
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
 
 // Helper Function
 var helpers = require("./utils/helpers.js");
@@ -29,7 +37,7 @@ var Main = React.createClass({
       var temp = {title: "test"+i, url: "test.com", date: "2017-01-01", category: "test-category", img: "http://lorempixel.com/500/500", text: articleText}
       articles.push(temp);
     }
-    return { user: {}, articles: articles};
+    return { user: {}, articles: articles, popoverExpanded: false};
   },
 
   //componentDidMount will run when the components load. This code will be run to get saved articles. 
@@ -39,39 +47,59 @@ var Main = React.createClass({
     //We get the saved articles, then set results array with the response data which should be a list of all articles. 
     helpers.getUser().then(function(response)
     {
-      console.log("getting user");
+      //console.log("getting user");
       if(response.data !== this.state.history)
       {
-        console.log(response);
+        //console.log(response);
         this.setState({user: response.data});
       }
     }.bind(this));
   },
 
+  expandPopover: function(event){
+    // console.log("expanding popover");
+    //console.log(event.currentTarget);
+    event.preventDefault();
+    this.setState({popoverExpanded: true});
+    this.setState({popoverAnchor: event.currentTarget});
+    //console.log(this.state.popoverAnchor);
+  },
+
+  compressPopover: function(){
+    // console.log("exiting popover");
+    this.setState({popoverExpanded: false});
+  },
+
+  logOut: function(){
+    helpers.logoutUser().then((response)=>
+    {
+      this.setState({user: {}});
+    });
+  },
 
   // Here we describe this component's render method
   render: function() {
     return (
       <div className="container">
 
-        <div className="row">
           <AppBar
             title= {<NameSlot user_name={this.state.user.user_name}/>}
-            iconElementLeft={<IconButton><NavigationExpandMore /></IconButton>}
-            iconElementRight={(this.state.user !== null) ? <Avatar user={this.state.user}/> : <FlatButton label="Login" href="/auth/google"/>}
+            iconElementLeft={<IconButton><NavigationExpandMore/></IconButton>}
+            iconElementRight={(Object.keys(this.state.user).length > 0) ? 
+              <Avatar user={this.state.user} expandPopover={this.expandPopover}/> : 
+              <FlatButton label="Login" containerElement={<Link to="/login"/>} />}
             iconStyleRight={{"margin": "0 auto"}}
           />  {/* end appbar */}
-  
+          
           <div className = "jumbotron">
-            <ArticlesChildren articles={this.state.articles} />
+
+            <Route exact path="/" component={() => <ArticlesChildren articles={this.state.articles}/>}/>
+            <Route path="/login" component={LoginPage}/>
           </div> {/* end jumbotron */}
 
-          <div className = "row">
-            
-          </div>
 
-        </div> {/* end jumbotron */}
-
+        {/*The popover menu from clicking on the expand button on the appbar*/}
+        <PopoverMenu popoverExpanded={this.state.popoverExpanded} popoverAnchor={this.state.popoverAnchor} compressPopover={() => this.compressPopover()} logOut={() => this.logOut()}/>
       </div> //end Container
     );
   }
