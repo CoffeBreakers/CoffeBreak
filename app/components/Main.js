@@ -116,7 +116,7 @@ var Main = React.createClass({
           <div className = "jumbotron">
 
             <Route exact path="/" component={() => <ArticlesChildren articles={this.state.articles}/>}/>
-            <Route path="/login" component={() => <LoginPage loginLocalUser={this.loginLocalUser} createAccount={this.createAccount} />} />
+            <Route path="/login" component={() => <LoginPage loginLocalUser={(user) => this.loginLocalUser(user)} createAccount={(user) => this.createAccount(user)} />} />
             <Route path="/profile" component={() => <ProfilePage user={this.state.user}/>}/>
           </div> {/* end jumbotron */}
 
