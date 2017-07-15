@@ -1,11 +1,11 @@
 
 var LocalStrategy = require("passport-local").Strategy;
 
-module.exports = function(app, db, passport) 
+module.exports = function(app, db, passport)
 {
     app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
 
-    app.get('/auth/google/callback', 
+    app.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/login' }),
     function(req, res) {
         res.redirect('/');
@@ -16,7 +16,7 @@ module.exports = function(app, db, passport)
         res.json(req.user);
     });
 
-    app.get('/logout', function(req, res) 
+    app.get('/logout', function(req, res)
     {
         req.logout();
         res.redirect('/');
@@ -45,4 +45,15 @@ module.exports = function(app, db, passport)
 	app.get('/profile',isLoggedIn,function(req,res){
 		res.render("profile",{user:req.user})
 	})
+}
+
+// route to middleware to make sure user is logged in
+function isLoggedIn(req, res, next) {
+
+    // if user is logged in -
+    if (req.isAuthentiated())
+        return next();
+
+    // if they aren't redirect them to home
+    res.redirect('/');
 }

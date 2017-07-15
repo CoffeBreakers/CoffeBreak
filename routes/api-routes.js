@@ -29,10 +29,10 @@ module.exports = function(app, db)
 //  * `/api/saved` (post) - your components will use this to save an article to the database
     app.post("/api/saved", function(req, res)
     {
-        console.log("request body: "+ JSON.stringify(req.body));
+        console.log("request body: ", req.body);
         var newArticle = new Article(req.body);
         console.log("new Article: " + JSON.stringify(newArticle, null, 2));
-        Article.save(newArticle, function(err, doc)
+        Article.create(newArticle, function(err, doc)
         {
             if(err)
             {
@@ -65,7 +65,7 @@ module.exports = function(app, db)
 
     app.get("/api/home", function(req, res)
     {
-    var categories = ['business', 'movies', 'arts','travel', 'world', 'politics', 'business','science','sports','fashion']
+    var categories = ['business', 'movies', 'arts', 'travel', 'world', 'politics','science','sports','fashion']
         // console.log(req.body);
         for (var i = 0; i < categories.length; i++){
           request.get({
@@ -75,10 +75,16 @@ module.exports = function(app, db)
               'api-key': Secrets.config.nyt_key,
             }
           }, function(err, response, body) {
-            body = JSON.parse(body);
+             body = JSON.parse(body);
+             request.get({
+               url: "http://api.smmry.com/&SM_API_KEY=" + Secrets.config.smmry_key + "&SM_LENGTH=5&SM_URL=" + body.url,
+          }, function (err, res, body){
+             title = JSON.parse(body)
+             }
+           )
             // console.log(body);
-            console.log('RESPONSE: ', body)
-          })
-        }
+            //console.log('RESPONSE: ', body)
+         }
+      }
    })
 }
