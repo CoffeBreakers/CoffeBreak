@@ -65,7 +65,7 @@ module.exports = function(app, db)
 
     app.get("/api/home", function(req, res)
     {
-    var categories = ['business', 'movies', 'arts','travel', 'world', 'politics', 'business','science','sports','fashion']
+    var categories = ['business', 'movies', 'arts', 'travel', 'world', 'politics','science','sports','fashion']
         // console.log(req.body);
         for (var i = 0; i < categories.length; i++){
           request.get({
@@ -81,4 +81,6 @@ module.exports = function(app, db)
           })
         }
    })
+
+  //"http://api.smmry.com/&SM_API_KEY=" + Secrets.config.smmry_key + "&SM_LENGTH=5&SM_URL=" + body.url
 }
