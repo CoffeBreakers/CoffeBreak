@@ -5,8 +5,8 @@ var React = require("react");
 import FlatButton from 'material-ui/FlatButton';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
-import NavigationExpandMore from 'material-ui/svg-icons/navigation/expand-more'
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import SvgIcon from 'material-ui/SvgIcon';
+import ActionHome from 'material-ui/svg-icons/action/home';
 // Here we include all of the sub-components
 import ArticlesChildren from "./children/ArticlesChildren";
 import Avatar from "./children/AppbarChildren/Avatar";
@@ -79,14 +79,34 @@ var Main = React.createClass({
     });
   },
 
+  loginLocal: function(user){
+    helpers.loginLocalUser(user).then((response) =>
+    {
+      console.log("Logging into user account");
+    }).bind(this);
+  },
+
+  createAccount: function(user){
+    helpers.createUser(user).then((response) =>
+    {
+      console.log("Created Account");
+    }).bind(this);
+  },
+
   // Here we describe this component's render method
   render: function() {
     return (
       <div className="container">
 
           <AppBar
-            title= {<NameSlot user_name={this.state.user.user_name}/>}
-            iconElementLeft={<IconButton><NavigationExpandMore/></IconButton>}
+            title= {<NameSlot user_name={this.state.user.user_name} />}
+            iconElementLeft={<IconButton
+              iconStyle={styles.mediumIcon}
+              style={styles.medium}
+              containerElement={<Link to="/"/>}
+            >
+              <ActionHome />
+            </IconButton>}
             iconElementRight={(Object.keys(this.state.user).length > 0) ? 
               <Avatar user={this.state.user} expandPopover={this.expandPopover}/> : 
               <FlatButton label="Login" containerElement={<Link to="/login"/>} />}
@@ -96,7 +116,7 @@ var Main = React.createClass({
           <div className = "jumbotron">
 
             <Route exact path="/" component={() => <ArticlesChildren articles={this.state.articles}/>}/>
-            <Route path="/login" component={LoginPage}/>
+            <Route path="/login" component={() => <LoginPage loginLocalUser={(user) => this.loginLocalUser(user)} createAccount={(user) => this.createAccount(user)} />} />
             <Route path="/profile" component={() => <ProfilePage user={this.state.user}/>}/>
           </div> {/* end jumbotron */}
 

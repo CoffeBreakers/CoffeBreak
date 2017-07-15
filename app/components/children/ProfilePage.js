@@ -8,6 +8,7 @@ import Divider from 'material-ui/Divider';
 import ActionInfo from 'material-ui/svg-icons/action/info';
 import Subheader from 'material-ui/Subheader';
 import Toggle from 'material-ui/Toggle';
+import RaisedButton from 'material-ui/RaisedButton';
 
 export default class ProfilePage extends React.Component {
 
@@ -30,19 +31,31 @@ export default class ProfilePage extends React.Component {
         <List>
             <Subheader>Your Preferences</Subheader>
             <ListItem primaryText="World News" rightToggle={<Toggle />} />
+            <hr/>
             <ListItem primaryText="Politics" rightToggle={<Toggle />} />
+            <hr/>
             <ListItem primaryText="Science" rightToggle={<Toggle />} />
+            <hr/>
             <ListItem primaryText="Movies" rightToggle={<Toggle />} />
+            <hr/>
             <ListItem primaryText="Business" rightToggle={<Toggle />} />
+            <hr/>
             <ListItem primaryText="Arts" rightToggle={<Toggle />} />
+            <hr/>
             <ListItem primaryText="Travel" rightToggle={<Toggle />} />
+            <hr/>
             <ListItem primaryText="Sports" rightToggle={<Toggle />} />
+            <hr/>
             <ListItem primaryText="Fashion" rightToggle={<Toggle />} />
+            <hr/>
         </List>
+        <RaisedButton label="Save Preferences" primary={true} style={style}/>
     </div>
       )
   }
 
 }
 
-//business arts movies travel world politics science sports fashion
+const style = {
+  margin: 15,
+};

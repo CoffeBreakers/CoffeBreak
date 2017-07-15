@@ -18,7 +18,19 @@ var helpers = {
   {
     console.log("logging out");
     return axios.get('/logout');
-  }
+  },
+
+  createUser: function(user)
+  {
+    console.log("creating user");
+    return axios.post('/signup', user);
+  },
+
+  loginLocalUser: function(user)
+  {
+    console.log("logging in local user");
+    return axios.post('/login', user);
+  },
 };
 
 // We export the helpers function (which contains getGithubInfo)
