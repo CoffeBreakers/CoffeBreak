@@ -14,6 +14,8 @@ var request = require("request");
 // Set mongoose to leverage built in JavaScript ES6 Promises
 mongoose.Promise = Promise;
 
+// flash middleware
+var flash = require('connect-flash');
 
 // Initialize Express
 var app = express();
@@ -41,6 +43,9 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(function() {
+  app.use(flash());
+});
 
 // Database configuration with mongoose
 //if in production, set uri to be production env variable, otherwise connect to the localhost uri. 
