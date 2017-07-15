@@ -75,12 +75,16 @@ module.exports = function(app, db)
               'api-key': Secrets.config.nyt_key,
             }
           }, function(err, response, body) {
-            body = JSON.parse(body);
+             body = JSON.parse(body);
+             request.get({
+               url: "http://api.smmry.com/&SM_API_KEY=" + Secrets.config.smmry_key + "&SM_LENGTH=5&SM_URL=" + body.url,
+          }, function (err, res, body){
+             title = JSON.parse(body)
+             }
+           )
             // console.log(body);
-            console.log('RESPONSE: ', body)
-          })
-        }
+            //console.log('RESPONSE: ', body)
+         }
+      }
    })
-
-  //"http://api.smmry.com/&SM_API_KEY=" + Secrets.config.smmry_key + "&SM_LENGTH=5&SM_URL=" + body.url
 }
