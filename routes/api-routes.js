@@ -65,26 +65,31 @@ module.exports = function(app, db)
 
     app.get("/api/home", function(req, res)
     {
-    var categories = ['business', 'movies', 'arts', 'travel', 'world', 'politics','science','sports','fashion']
+    var categories = ['business', 'movies', 'arts', 'travel', 'world', 'politics','science','sports','fashion'];
         // console.log(req.body);
-        for (var i = 0; i < categories.length; i++){
-          request.get({
-            url: "http://api.nytimes.com/svc/topstories/v2/" + categories[i] + ".json",
-            qs: {
-              //  'api-key': Secrets.nyt_key,
-              'api-key': Secrets.config.nyt_key,
-            }
-          }, function(err, response, body) {
+        for (var i = 0; i < categories.length; i++)
+        {
+          request.get(
+            {
+                url: "http://api.nytimes.com/svc/topstories/v2/" + categories[i] + ".json",
+                qs: 
+                {
+                //  'api-key': Secrets.nyt_key,
+                'api-key': Secrets.config.nyt_key,
+                }
+            }, function(err, response, body) 
+            {
              body = JSON.parse(body);
-             request.get({
-               url: "http://api.smmry.com/&SM_API_KEY=" + Secrets.config.smmry_key + "&SM_LENGTH=5&SM_URL=" + body.url,
-          }, function (err, res, body){
-             title = JSON.parse(body)
-             }
-           )
+             request.get(
+                {
+                    url: "http://api.smmry.com/&SM_API_KEY=" + Secrets.config.smmry_key + "&SM_LENGTH=5&SM_URL=" + body.url,
+                }, function (err, res, body)
+                {
+                    title = JSON.parse(body)
+                });
             // console.log(body);
             //console.log('RESPONSE: ', body)
-         }
-      }
-   })
+            })
+        }
+  })
 }
