@@ -42,11 +42,12 @@ module.exports = function(app, db, passport)
 		failureFlash: true
 	}));
 
-	app.get('/profile',isLoggedIn,function(req,res){
+	app.get('/profile',function(req,res){
 		res.render("profile",{user:req.user})
 	})
-}
 
+
+}
 // route to middleware to make sure user is logged in
 function isLoggedIn(req, res, next) {
 
