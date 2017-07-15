@@ -43,9 +43,7 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(function() {
-  app.use(flash());
-});
+app.use(flash());
 
 // Database configuration with mongoose
 //if in production, set uri to be production env variable, otherwise connect to the localhost uri. 

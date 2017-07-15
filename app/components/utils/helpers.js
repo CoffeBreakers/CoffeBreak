@@ -31,6 +31,8 @@ var helpers = {
     console.log("logging in local user");
     return axios.post('/login', user);
   },
+
+  
 };
 
 // We export the helpers function (which contains getGithubInfo)
