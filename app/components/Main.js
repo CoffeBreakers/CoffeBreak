@@ -38,6 +38,7 @@ var Main = React.createClass({
       var temp = {title: "test"+i, url: "test.com", date: "2017-01-01", category: "test-category", img: "http://lorempixel.com/500/500", text: articleText}
       articles.push(temp);
     }
+
     return { user: {}, articles: articles, popoverExpanded: false};
   },
 
@@ -76,21 +77,47 @@ var Main = React.createClass({
     {
       this.setState({user: {}});
       this.compressPopover();
-    }).bind(this);
+    }.bind(this));
   },
 
   loginLocal: function(user){
     helpers.loginLocalUser(user).then(function(response)
     {
-      console.log("Logging into user account");
+      this.setState({"user": this.getUser()});
     }.bind(this));
   },
+  
 
   createAccount: function(user){
     helpers.createUser(user).then(function(response)
     {
-      console.log("Created Account");
+      this.setState({"user": this.getUser()});
     }.bind(this));
+  },
+
+  changePreferences: function(preferences){
+    helpers.updatePreferences(preferences).then(function(response)
+    {
+      console.log("Changing preferences");
+    }.bind(this));
+  },
+
+  getUser: function()
+  {
+    helpers.getUser().then(function(response)
+    {
+      //console.log("getting user");
+      if(response.data !== this.state.history)
+      {
+        //console.log(response);
+        this.setState({user: response.data});
+      }
+    }.bind(this));
+  },
+
+  preferenceToggle: function(prefName, state)
+  {
+    this.state.user[prefName] = state;
   },
 
   // Here we describe this component's render method
@@ -117,7 +144,8 @@ var Main = React.createClass({
 
             <Route exact path="/" component={() => <ArticlesChildren articles={this.state.articles}/>}/>
             <Route path="/login" component={() => <LoginPage loginLocalUser={this.loginLocal} createAccount={this.createAccount} />} />
-            <Route path="/profile" component={() => <ProfilePage user={this.state.user}/>}/>
+            <Route path="/profile" component={() => <ProfilePage user={this.state.user} preferences={this.state.preferences}
+               preferenceToggle={this.state.preferenceToggle}/>}/>
           </div> {/* end jumbotron */}
 
 

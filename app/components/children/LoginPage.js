@@ -24,10 +24,10 @@ export default class LoginPage extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log("in handle submit");
+    // console.log("in handle submit");
     
-    console.log("submitting " + this.state.user_name + " password: " + this.state.password);
-    console.log(this.props);
+    // console.log("submitting " + this.state.user_name + " password: " + this.state.password);
+    // console.log(this.props);
 
     this.props.loginLocalUser({user_name: this.state.user_name, password: this.state.password});
   }
@@ -41,7 +41,7 @@ export default class LoginPage extends React.Component {
     event.preventDefault();
     
 
-    console.log("creating new Account with username: " + this.state.user_name + " password: " + this.state.password);
+    //console.log("creating new Account with username: " + this.state.user_name + " password: " + this.state.password);
     this.props.createAccount({user_name: this.state.user_name, password: this.state.password});
   }
 
