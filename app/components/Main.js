@@ -72,25 +72,25 @@ var Main = React.createClass({
   },
 
   logOut: function(){
-    helpers.logoutUser().then((response)=>
+    helpers.logoutUser().then(function(response)
     {
       this.setState({user: {}});
       this.compressPopover();
-    });
+    }).bind(this);
   },
 
   loginLocal: function(user){
-    helpers.loginLocalUser(user).then((response) =>
+    helpers.loginLocalUser(user).then(function(response)
     {
       console.log("Logging into user account");
-    });
+    }.bind(this));
   },
 
   createAccount: function(user){
-    helpers.createUser(user).then((response) =>
+    helpers.createUser(user).then(function(response)
     {
       console.log("Created Account");
-    });
+    }.bind(this));
   },
 
   // Here we describe this component's render method
@@ -116,7 +116,7 @@ var Main = React.createClass({
           <div className = "jumbotron">
 
             <Route exact path="/" component={() => <ArticlesChildren articles={this.state.articles}/>}/>
-            <Route path="/login" component={() => <LoginPage loginLocalUser={(user) => this.loginLocalUser(user)} createAccount={(user) => this.createAccount(user)} />} />
+            <Route path="/login" component={() => <LoginPage loginLocalUser={this.loginLocal} createAccount={this.createAccount} />} />
             <Route path="/profile" component={() => <ProfilePage user={this.state.user}/>}/>
           </div> {/* end jumbotron */}
 
