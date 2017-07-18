@@ -23,14 +23,22 @@ var helpers = {
   createUser: function(user)
   {
     console.log("creating user");
+    console.log(JSON.stringify(user, null, 2));
     return axios.post('/signup', user);
   },
 
   loginLocalUser: function(user)
   {
-    console.log("logging in local user");
+    // console.log("logging in local user");
+    // console.log(JSON.stringify(user, null, 2));
     return axios.post('/login', user);
   },
+
+  updatePreferences: function(preferences)
+  {
+    console.log("updating user preferences");
+    return axios.post('/user/preferences', preferences);
+  }
 
   
 };
