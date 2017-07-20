@@ -42,8 +42,9 @@ app.use(session({
   secret: 'whynotzoidberg'
 }));
 app.use(passport.initialize());
-app.use(passport.session());
 app.use(flash());
+app.use(passport.session());
+
 
 // Database configuration with mongoose
 //if in production, set uri to be production env variable, otherwise connect to the localhost uri. 

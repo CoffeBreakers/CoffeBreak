@@ -1,7 +1,7 @@
 // load all the things we need for Google Auth
 var LocalStrategy = require("passport-local").Strategy;
 var bcrypt   = require('bcrypt');
-
+var flash    = require('connect-flash');
 var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
 
 // load up the user model
@@ -38,7 +38,7 @@ module.exports = function(passport) {
     	passport.use('local-signup',new LocalStrategy({
 		usernameField:'user_name',
 		passwordField:'password',
-		// passReqToCallback:false
+		passReqToCallback:false
 	},
 	function(req,user_name,password,done){
 		console.log("login route")
@@ -66,8 +66,8 @@ module.exports = function(passport) {
 				}else{
 					var newuser = req.user;
 					console.log(newuser,"newuser")
-					newuser.local.username = email;
-					newuser.local.password = password;
+					newuser.user_name = email;
+					newuser.password = password;
 					newuser.save(function(err){
 	    				if(err)
 	    					throw err;
@@ -84,7 +84,7 @@ module.exports = function(passport) {
 	passport.use("local-login",new LocalStrategy({
 		usernameField:'user_name',
 		passwordField:'password',
-		// passReqToCallback:false
+		passReqToCallback:false
 	},
 	function(req,user_name,password,done){
 		process.nextTick(function(){
@@ -125,7 +125,7 @@ module.exports = function(passport) {
         clientID        : process.env.google_client_id || secrets.config.googleClientID,
         clientSecret    : process.env.google_client_secret || secrets.config.googleClientSecret,
         callbackURL     : process.env.callback_url || secrets.config.CALLBACK_URL,
-        // passReqToCallback : false
+        passReqToCallback : false
     },
     function(req, token, refreshToken, profile, done) {
         // console.log("req: " + JSON.stringify(req.body));
