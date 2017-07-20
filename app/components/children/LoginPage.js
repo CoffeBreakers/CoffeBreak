@@ -26,7 +26,7 @@ export default class LoginPage extends React.Component {
     event.preventDefault();
     // console.log("in handle submit");
     
-    // console.log("submitting " + this.state.user_name + " password: " + this.state.password);
+     console.log("submitting " + this.state.user_name + " password: " + this.state.password);
     // console.log(this.props);
 
     this.props.loginLocalUser({user_name: this.state.user_name, password: this.state.password});

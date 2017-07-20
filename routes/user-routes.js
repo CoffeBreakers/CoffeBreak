@@ -1,6 +1,6 @@
 var User = require('../models/User.js');
 
-module.exports = function(app, db, passport)
+module.exports = function(app, db)
 {
     app.post('/user/preferences', function(req, res)
     {
@@ -19,3 +19,13 @@ module.exports = function(app, db, passport)
         });
     });
 }
+
+// Tank.findById(id, function (err, tank) {
+//   if (err) return handleError(err);
+  
+//   tank.size = 'large';
+//   tank.save(function (err, updatedTank) {
+//     if (err) return handleError(err);
+//     res.send(updatedTank);
+//   });
+// });

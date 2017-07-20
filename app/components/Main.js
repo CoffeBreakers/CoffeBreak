@@ -83,7 +83,7 @@ var Main = React.createClass({
   loginLocal: function(user){
     helpers.loginLocalUser(user).then(function(response)
     {
-      this.setState({"user": this.getUser()});
+      this.getUser();
     }.bind(this));
   },
   
@@ -115,9 +115,17 @@ var Main = React.createClass({
     }.bind(this));
   },
 
-  preferenceToggle: function(prefName, state)
+  preferenceToggle: function(prefName)
   {
-    this.state.user[prefName] = state;
+    this.state.user[prefName] = !this.state.user[prefName];
+  },
+
+  savePreferences: function()
+  {
+    helpers.updatePreferences(this.state.user).then(function(response)
+    {
+      console.log(response);
+    }.bind(this));
   },
 
   // Here we describe this component's render method
@@ -144,8 +152,8 @@ var Main = React.createClass({
 
             <Route exact path="/" component={() => <ArticlesChildren articles={this.state.articles}/>}/>
             <Route path="/login" component={() => <LoginPage loginLocalUser={this.loginLocal} createAccount={this.createAccount} />} />
-            <Route path="/profile" component={() => <ProfilePage user={this.state.user} preferences={this.state.preferences}
-               preferenceToggle={this.state.preferenceToggle}/>}/>
+            <Route path="/profile" component={() => <ProfilePage user={this.state.user} preferenceToggle={this.preferenceToggle}
+              savePreferences={this.savePreferences}/>}/>
           </div> {/* end jumbotron */}
 
 
