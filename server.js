@@ -3,7 +3,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
-var passport = require('passport');
+const passport = require('passport')
 var session = require('express-session');
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -14,6 +14,9 @@ var request = require("request");
 var Secrets = require("./configs/secrets.js");
 // Set mongoose to leverage built in JavaScript ES6 Promises
 mongoose.Promise = Promise;
+
+// flash middleware
+var flash = require('connect-flash');
 
 // Initialize Express
 var app = express();
@@ -33,13 +36,13 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({secret: 'whynotzoidberg'}));
 app.use(passport.initialize());
+app.use(flash());
 app.use(passport.session());
+
 
 // Database configuration with mongoose
 //if in production, set uri to be production env variable, otherwise connect to the localhost uri.
-var databaseURI = (process.env.MONGODB_URI
-  ? process.env.MONGODB_URI
-  : "mongodb://localhost/coffeebreak");
+var databaseURI = (process.env.MONGODB_URI? process.env.MONGODB_URI: "mongodb://localhost/coffeebreak");
 mongoose.connect(databaseURI);
 var db = mongoose.connection;
 
@@ -124,6 +127,7 @@ for (var i = 0; i < categories.length; i++) {
 require("./routes/html-routes.js")(app, db);
 require("./routes/api-routes.js")(app, db);
 require("./routes/login-routes.js")(app, db, passport);
+require("./routes/user-routes.js")(app, db);
 
 //sets port variable to process.env.port if exists or 3000 if not.
 const PORT = process.env.PORT || 3000;

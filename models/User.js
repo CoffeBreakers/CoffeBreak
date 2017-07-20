@@ -1,5 +1,5 @@
 //Placeholder for User, need to be changed. 
-
+var bcrypt   = require('bcrypt');
 // Require mongoose
 var mongoose = require("mongoose");
 // Create Schema class
@@ -11,6 +11,10 @@ var UserSchema = new Schema({
   user_name: {
     type: String,
     required: true
+  },
+
+  password: {
+    type: String,
   },
   
   googleID: 
@@ -31,8 +35,61 @@ var UserSchema = new Schema({
   photo:
   {
     type: String
-  }
+  },
 
+  world_news: 
+  {
+    type: Boolean,
+    default: true
+  },
+
+  politics: 
+  {
+    type: Boolean,
+    default: true
+  },
+
+  science: 
+  {
+    type: Boolean,
+    default: true
+  },
+
+  movies: 
+  {
+    type: Boolean,
+    default: true
+  },
+
+  business: 
+  {
+    type: Boolean,
+    default: true
+  },
+
+  arts: 
+  {
+    type: Boolean,
+    default: true
+  },
+
+  travel: 
+  {
+    type: Boolean,
+    default: true
+  },
+
+  sports: 
+  {
+    type: Boolean,
+    default: true
+  },
+
+  fashion: 
+  {
+    type: Boolean,
+    default: true
+  },
 });
 
 // Create the Article model with the ArticleSchema

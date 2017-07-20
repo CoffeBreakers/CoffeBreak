@@ -1,6 +1,7 @@
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import Divider from 'material-ui/Divider';
 
 export default class LoginPage extends React.Component {
 
@@ -23,7 +24,12 @@ export default class LoginPage extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-      console.log("submitting " + this.state.user_name + " password: " + this.state.password);
+    // console.log("in handle submit");
+    
+     console.log("submitting " + this.state.user_name + " password: " + this.state.password);
+    // console.log(this.props);
+
+    this.props.loginLocalUser({user_name: this.state.user_name, password: this.state.password});
   }
 
   goToGoogle(event) {
@@ -33,8 +39,12 @@ export default class LoginPage extends React.Component {
 
   handleCreateLocalAccount(event) {
     event.preventDefault();
-    console.log("creating new Account with username: " + this.state.user_name + " password: " + this.state.password);
+    
+
+    //console.log("creating new Account with username: " + this.state.user_name + " password: " + this.state.password);
+    this.props.createAccount({user_name: this.state.user_name, password: this.state.password});
   }
+
 
   render() {
       return (
@@ -54,6 +64,7 @@ export default class LoginPage extends React.Component {
           <br/>
           <RaisedButton label="Submit" primary={true} style={style} onClick={(event) => this.handleSubmit(event)}/>
           <RaisedButton label="Create Account" primary={true} style={style} onClick={(event) => this.handleCreateLocalAccount(event)}/>
+          <Divider />
           <RaisedButton label="Sign in to Google" primary={true} style={style} onClick={(event) => this.goToGoogle(event)}/>
         </div>
       )

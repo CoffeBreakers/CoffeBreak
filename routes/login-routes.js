@@ -22,31 +22,32 @@ module.exports = function(app, db, passport)
         res.redirect('/');
     });
 
-	app.get('/signup',function(req,res){
-		res.render("signup",{message:req.flash('signupMessage')})
-	})
+	// app.get('/signup',function(req,res){
+	// 	res.render("signup",{message:req.flash('signupMessage')})
+	// })
 
 	app.get('/login',function(req,res){
-		res.render("login",{message:req.flash("loginMessage")})
+		res.render("/",{message:req.flash("loginMessage")})
 	})
 
 	app.post('/signup', passport.authenticate('local-signup', {
 		successRedirect: '/',
-		failureRedirect: '/signup',
-		failureFlash: true
-	}));
-
-	app.post('/login', passport.authenticate('local-login', {
-		successRedirect: '/profile',
 		failureRedirect: '/login',
 		failureFlash: true
 	}));
 
-	app.get('/profile',isLoggedIn,function(req,res){
+	app.post('/login', passport.authenticate('local-login', {
+		successRedirect: '/',
+		failureRedirect: '/login',
+		failureFlash: false
+	}));
+
+	app.get('/profile',function(req,res){
 		res.render("profile",{user:req.user})
 	})
-}
 
+
+}
 // route to middleware to make sure user is logged in
 function isLoggedIn(req, res, next) {
 

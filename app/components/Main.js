@@ -5,8 +5,8 @@ var React = require("react");
 import FlatButton from 'material-ui/FlatButton';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
-import NavigationExpandMore from 'material-ui/svg-icons/navigation/expand-more'
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import SvgIcon from 'material-ui/SvgIcon';
+import ActionHome from 'material-ui/svg-icons/action/home';
 // Here we include all of the sub-components
 import ArticlesChildren from "./children/ArticlesChildren";
 import Avatar from "./children/AppbarChildren/Avatar";
@@ -38,6 +38,7 @@ var Main = React.createClass({
       var temp = {title: "test"+i, url: "test.com", date: "2017-01-01", category: "test-category", img: "http://lorempixel.com/500/500", text: articleText}
       articles.push(temp);
     }
+
     return { user: {}, articles: articles, popoverExpanded: false};
   },
 
@@ -46,15 +47,7 @@ var Main = React.createClass({
   {
     //first time the component rendered
     //We get the saved articles, then set results array with the response data which should be a list of all articles. 
-    helpers.getUser().then(function(response)
-    {
-      //console.log("getting user");
-      if(response.data !== this.state.history)
-      {
-        //console.log(response);
-        this.setState({user: response.data});
-      }
-    }.bind(this));
+    this.getUser();
   },
 
   expandPopover: function(event){
@@ -72,11 +65,66 @@ var Main = React.createClass({
   },
 
   logOut: function(){
-    helpers.logoutUser().then((response)=>
+    helpers.logoutUser().then(function(response)
     {
       this.setState({user: {}});
       this.compressPopover();
-    });
+    }.bind(this));
+  },
+
+  loginLocal: function(user){
+    helpers.loginLocalUser(user).then(function(response)
+    {
+      this.getUser();
+    }.bind(this));
+  },
+  
+
+  createAccount: function(user){
+    helpers.createUser(user).then(function(response)
+    {
+      this.setState({"user": this.getUser()});
+    }.bind(this));
+  },
+
+  changePreferences: function(preferences){
+    helpers.updatePreferences(preferences).then(function(response)
+    {
+      console.log("Changing preferences");
+    }.bind(this));
+  },
+
+  getUser: function()
+  {
+    helpers.getUser().then(function(response)
+    {
+      //console.log("getting user");
+      if(response.data !== this.state.history)
+      {
+        //console.log(response);
+        if(response.data === null || response.data === undefined)
+        {
+          this.setState({user: {}});
+        }
+        else
+        {
+          this.setState({user: response.data});
+        }
+      }
+    }.bind(this));
+  },
+
+  preferenceToggle: function(prefName)
+  {
+    this.state.user[prefName] = !this.state.user[prefName];
+  },
+
+  savePreferences: function()
+  {
+    helpers.updatePreferences(this.state.user).then(function(response)
+    {
+      console.log(response);
+    }.bind(this));
   },
 
   // Here we describe this component's render method
@@ -85,8 +133,14 @@ var Main = React.createClass({
       <div className="container">
 
           <AppBar
-            title= {<NameSlot user_name={this.state.user.user_name}/>}
-            iconElementLeft={<IconButton><NavigationExpandMore/></IconButton>}
+            title= {<NameSlot user_name={this.state.user.user_name} />}
+            iconElementLeft={<IconButton
+              iconStyle={styles.mediumIcon}
+              style={styles.medium}
+              containerElement={<Link to="/"/>}
+            >
+              <ActionHome />
+            </IconButton>}
             iconElementRight={(Object.keys(this.state.user).length > 0) ? 
               <Avatar user={this.state.user} expandPopover={this.expandPopover}/> : 
               <FlatButton label="Login" containerElement={<Link to="/login"/>} />}
@@ -96,8 +150,9 @@ var Main = React.createClass({
           <div className = "jumbotron">
 
             <Route exact path="/" component={() => <ArticlesChildren articles={this.state.articles}/>}/>
-            <Route path="/login" component={LoginPage}/>
-            <Route path="/profile" component={() => <ProfilePage user={this.state.user}/>}/>
+            <Route path="/login" component={() => <LoginPage loginLocalUser={this.loginLocal} createAccount={this.createAccount} />} />
+            <Route path="/profile" component={() => <ProfilePage user={this.state.user} preferenceToggle={this.preferenceToggle}
+              savePreferences={this.savePreferences}/>}/>
           </div> {/* end jumbotron */}
 
 
