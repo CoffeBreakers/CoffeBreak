@@ -18,6 +18,13 @@ module.exports = function(app, db)
             }
         });
     });
+
+    app.get('/api/preferredArticles', function(req, res)
+    {
+        console.log(Json.stringify(req.user));
+        var toReturn = [];
+        
+    });
 }
 
 // Tank.findById(id, function (err, tank) {

@@ -47,15 +47,7 @@ var Main = React.createClass({
   {
     //first time the component rendered
     //We get the saved articles, then set results array with the response data which should be a list of all articles. 
-    helpers.getUser().then(function(response)
-    {
-      //console.log("getting user");
-      if(response.data !== this.state.history)
-      {
-        //console.log(response);
-        this.setState({user: response.data});
-      }
-    }.bind(this));
+    this.getUser();
   },
 
   expandPopover: function(event){
@@ -110,7 +102,14 @@ var Main = React.createClass({
       if(response.data !== this.state.history)
       {
         //console.log(response);
-        this.setState({user: response.data});
+        if(response.data === null || response.data === undefined)
+        {
+          this.setState({user: {}});
+        }
+        else
+        {
+          this.setState({user: response.data});
+        }
       }
     }.bind(this));
   },
