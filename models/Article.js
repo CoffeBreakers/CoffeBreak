@@ -13,7 +13,7 @@ var ArticleSchema = new Schema({
   // date is a date type
   date: {
     type: Date,
-    required: false
+    required: true
   },
   // this saves the url
   url: {
@@ -29,7 +29,7 @@ var ArticleSchema = new Schema({
 
   text: {
     type: String,
-    required: false
+    required: true
   },
 
   img: {
