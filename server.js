@@ -70,6 +70,7 @@ db.once("open", function()
 require("./routes/html-routes.js")(app, db);
 require("./routes/api-routes.js")(app, db);
 require("./routes/login-routes.js")(app, db, passport);
+require("./routes/user-routes.js")(app, db);
 
 //sets port variable to process.env.port if exists or 3000 if not. 
 const PORT = process.env.PORT || 3000;

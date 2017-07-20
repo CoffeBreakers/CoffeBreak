@@ -20,19 +20,19 @@ export default class ProfilePage extends React.Component {
 
   componentDidMount()
   {
-    console.log(JSON.stringify(this.props.user, null, 2));
+    console.log(JSON.stringify(this.props, null, 2));
   }
 //TODO: add a list of toggles that keeps track of what categories that the user wants to experience. 
   handleToggle(event, state)
   {
-    console.log("toggled: " + state);
-    this.props.preferenceToggle(state, event.target.value);
+    this.props.preferenceToggle(state);
   }
 
   handleSavePreferences(event)
   {
     event.preventDefault();
     console.log("saving preferences");
+    this.props.savePreferences();
   }
 
 // <Toggle onToggle={(event) => this.handleChange(event, 'encode')} style={styles.toggle} label="Encode" labelPosition="right" />
