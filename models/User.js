@@ -1,5 +1,5 @@
 //Placeholder for User, need to be changed. 
-
+var bcrypt   = require('bcrypt');
 // Require mongoose
 var mongoose = require("mongoose");
 // Create Schema class
