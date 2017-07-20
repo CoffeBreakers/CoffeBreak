@@ -3,7 +3,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
-var passport = require('passport');
+const passport = require('passport')
 var session = require('express-session');
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -42,8 +42,9 @@ app.use(session({
   secret: 'whynotzoidberg'
 }));
 app.use(passport.initialize());
-app.use(passport.session());
 app.use(flash());
+app.use(passport.session());
+
 
 // Database configuration with mongoose
 //if in production, set uri to be production env variable, otherwise connect to the localhost uri. 

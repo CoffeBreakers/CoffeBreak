@@ -22,24 +22,24 @@ module.exports = function(app, db, passport)
         res.redirect('/');
     });
 
-	app.get('/signup',function(req,res){
-		res.render("signup",{message:req.flash('signupMessage')})
-	})
+	// app.get('/signup',function(req,res){
+	// 	res.render("signup",{message:req.flash('signupMessage')})
+	// })
 
 	app.get('/login',function(req,res){
-		res.render("login",{message:req.flash("loginMessage")})
+		res.render("/",{message:req.flash("loginMessage")})
 	})
 
 	app.post('/signup', passport.authenticate('local-signup', {
 		successRedirect: '/',
-		failureRedirect: '/signup',
+		failureRedirect: '/login',
 		failureFlash: true
 	}));
 
 	app.post('/login', passport.authenticate('local-login', {
-		successRedirect: '/profile',
+		successRedirect: '/',
 		failureRedirect: '/login',
-		failureFlash: true
+		failureFlash: false
 	}));
 
 	app.get('/profile',function(req,res){
