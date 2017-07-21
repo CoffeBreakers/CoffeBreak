@@ -1,6 +1,9 @@
 var User = require('../models/User.js');
 var request = require("request");
-var Secrets = require("../configs/secrets.js");
+if (!process.env.NODE_ENV)
+{
+  var Secrets = require("../configs/secrets.js");
+}
 var Article = require("../models/Article.js");
 
 module.exports = function(app, db)
@@ -52,7 +55,7 @@ module.exports = function(app, db)
                 url: "https://api.cognitive.microsoft.com/bing/v5.0/news",
                 headers:
                 {
-                    'Ocp-Apim-Subscription-Key': Secrets.config.bing_key,
+                    'Ocp-Apim-Subscription-Key': process.env.bing_key || Secrets.config.bing_key,
                     'X-MSEdge-ClientID': '0F4C92B7D98C62592D139872D8D3632C',
                     'mkt': 'en-us HTTP/1.1',
                 }

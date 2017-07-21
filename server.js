@@ -11,7 +11,10 @@ var bodyParser = require('body-parser');
 // Requiring Mongoose models
 var Article = require("./models/Article.js");
 var request = require("request");
-var Secrets = require("./configs/secrets.js");
+if (!process.env.NODE_ENV)
+{
+  var Secrets = require("../configs/secrets.js");
+}
 // Set mongoose to leverage built in JavaScript ES6 Promises
 mongoose.Promise = Promise;
 

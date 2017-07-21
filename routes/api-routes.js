@@ -2,7 +2,11 @@
 // api-routes.js - this file offers a set of routes for displaying and saving data to the db
 // *********************************************************************************
 var Article = require("../models/Article.js");
-var Secrets = require("../configs/secrets.js");
+if (!process.env.NODE_ENV)
+{
+  var Secrets = require("../configs/secrets.js");
+}
+
 var request = require("request");
 
 // Routes
@@ -74,8 +78,8 @@ module.exports = function(app, db) {
       request.get({
         url: "http://api.nytimes.com/svc/topstories/v2/" + categories[i] + ".json",
         qs: {
-          'api-key': Secrets.config.nyt_key
-        }
+          'api-key': process.env.nyt_key || Secrets.config.nyt_key
+        } 
       }, function(err, response, body) {
         // console.log('body')
         // console.log(body)
@@ -88,7 +92,7 @@ module.exports = function(app, db) {
         //console.log(`typeof body: ${ typeof body }`);
         //for (var j=0; j<body.results.length; j++){
         JSONobject.nytimes.forEach((article) => {
-          let url = "http://api.smmry.com/&SM_API_KEY=" + Secrets.config.smmry_key + "&SM_LENGTH=5&SM_URL=" + article.url
+          let url = "http://api.smmry.com/&SM_API_KEY=" + (process.env) ? process.env.smmry_key : Secrets.config.smmry_key + "&SM_LENGTH=5&SM_URL=" + article.url
           //  console.log("Results :", url)
           // console.log(`URL: ${ url }`)
           request.get({url}, function(err, res, body) {
