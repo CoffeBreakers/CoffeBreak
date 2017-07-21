@@ -29,7 +29,7 @@ var ArticleSchema = new Schema({
 
   text: {
     type: String,
-    required: true
+    required: false
   },
 
   img: {

@@ -28,19 +28,20 @@ module.exports = function(app, db)
         console.log("in bingarticles");
         let cutoff = new Date();
         cutoff.setDate(cutoff.getDate()-1);
-        Article.find({date: {$gt: cutoff}}), function(err, docs)
+        Article.find({date: {$gte: cutoff}}, function(err, docs)
         {
+            console.log("in articles callback function");
             if(err)
             {
                 console.log(err);
-                res.status(500);
+                res.status(500).send(err);
             }
             else
             {
                 console.log(docs);
                 res.json(docs);
             }
-        }
+        });
         
     });
 
@@ -67,23 +68,11 @@ module.exports = function(app, db)
                     newArticle.title = element.name;
                     newArticle.date = element.datePublished;
                     newArticle.url = element.url;
-
-                    //var category = '';
-                    // switch(element.category) {
-                    //     case 'US':
-                    //         category = 'Politics';
-                    //         break;
-                    //     case 'Entertainment':
-                    //         category = 'Movies';
-                    //         break;
-                    //     case ''
-                    //     default:
-                    //         category = element.category;
-                    // } 
-
                     newArticle.category = element.category;
                     newArticle.text = element.description;
-                    if(element.thumbnail !== undefined)
+
+                    console.log(typeof(element.image));
+                    if(element.image !== undefined)
                     {
                         newArticle.img = element.image.thumbnail.contentUrl
                     }
