@@ -6,7 +6,7 @@ var helpers = {
   getArticles: function()
   {
     console.log("getting articles")
-    return axios.get("/api/saved");
+    return axios.get("/api/bingarticles");
   },
 
   getUser: function(query)
