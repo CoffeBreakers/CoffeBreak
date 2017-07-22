@@ -14,7 +14,7 @@ module.exports = function(app, db, passport)
     app.get('/api/user', function(req, res)
     {
         res.json(req.user);
-        res.redirect('/');
+        // res.redirect('/');
     });
 
     app.get('/logout', function(req, res)
@@ -33,13 +33,13 @@ module.exports = function(app, db, passport)
 
 	app.post('/signup', passport.authenticate('local-signup', {
 		successRedirect: '/',
-		failureRedirect: '/',
+		failureRedirect: '/login',
 		failureFlash: true
 	}));
 
 	app.post('/login', passport.authenticate('local-login', {
 		successRedirect: '/',
-		failureRedirect: '/',
+		failureRedirect: '/login',
 		failureFlash: false
 	}));
 
