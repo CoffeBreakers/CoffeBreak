@@ -13,6 +13,7 @@ module.exports = function(app, db, passport)
 
     app.get('/api/user', function(req, res)
     {
+        console.log(req, res)
         res.json(req.user);
     });
 
@@ -23,17 +24,17 @@ module.exports = function(app, db, passport)
     });
 
 	// app.get('/signup',function(req,res){
-	// 	res.render("signup",{message:req.flash('signupMessage')})
+	// 	res.redirect("/",{message:req.flash('signupMessage')})
 	// })
 
 	app.get('/login',function(req,res){
-		res.render("/",{message:req.flash("loginMessage")})
+		res.redirect("/",{message:req.flash("loginMessage")})
 	})
 
 	app.post('/signup', passport.authenticate('local-signup', {
 		successRedirect: '/',
 		failureRedirect: '/login',
-		failureFlash: true
+		failureFlash: false
 	}));
 
 	app.post('/login', passport.authenticate('local-login', {
