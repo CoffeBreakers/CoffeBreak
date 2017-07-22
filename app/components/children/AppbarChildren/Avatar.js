@@ -48,7 +48,7 @@ render() {
           size={30}
           style={style}
           >
-            {this.props.user_name}
+            {this.props.user_name[0]}
           </Avatar>
         }
       >

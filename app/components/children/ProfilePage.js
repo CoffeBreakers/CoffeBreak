@@ -10,15 +10,20 @@ import Subheader from 'material-ui/Subheader';
 import Toggle from 'material-ui/Toggle';
 import RaisedButton from 'material-ui/RaisedButton';
 
+//import snackbar that appears from the bottom. 
+import ProfileSnackBar from './ProfileChildren/ProfileSnackBar';
 export default class ProfilePage extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+          snackOpen: false
+        };
   };
 
   componentDidMount()
   {
-    console.log(JSON.stringify(this.props, null, 2));
+    //console.log(JSON.stringify(this.props, null, 2));
   }
 //TODO: add a list of toggles that keeps track of what categories that the user wants to experience. 
   handleToggle(event, state)
@@ -29,7 +34,7 @@ export default class ProfilePage extends React.Component {
   handleSavePreferences(event)
   {
     event.preventDefault();
-    console.log("saving preferences");
+    //console.log("saving preferences");
     this.props.savePreferences();
     this.props.displayArticles();
   }
@@ -42,7 +47,20 @@ export default class ProfilePage extends React.Component {
       <div>
         <List>
             <ListItem primaryText={this.props.user.user_name}
-                      leftAvatar={<Avatar src={this.props.user.photo} />}/>
+                      leftAvatar={(this.props.user.photo)?
+                                  <Avatar 
+                                  src={this.props.user.photo} 
+                                  style={style}
+                                  />
+                                  :
+                                  <Avatar
+                                  color={deepOrange300}
+                                  backgroundColor={purple500}
+                                  size={30}
+                                  style={style}
+                                  >
+                                    {this.props.user_name[0]}
+                                  </Avatar>}/>
             
         </List>
         <Divider />
@@ -84,6 +102,7 @@ export default class ProfilePage extends React.Component {
             <hr/>
         </List>
         <RaisedButton label="Save Preferences" primary={true} style={style} onClick={(event) => this.handleSavePreferences(event)}/>
+        <ProfileSnackBar snackOpen={this.props.snackOpen} closeSnack={this.props.closeSnack}/>
     </div>
       )
   }

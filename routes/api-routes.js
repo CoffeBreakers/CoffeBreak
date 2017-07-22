@@ -109,8 +109,12 @@ function downloadCategory(category)
           'api-key': process.env.nyt_key || Secrets.config.nyt_key
         } 
       }, function(err, response, body) {
-        console.log(body)
+        //console.log(body)
         body = JSON.parse(body);
+        if (body.results === undefined)
+        {
+          return;
+        }
         JSONobject.nytimes = body.results.slice(0, 3);
         //console.log('body: ', JSONobject.nytimes);
         //var title = body.results.slice(0,5)

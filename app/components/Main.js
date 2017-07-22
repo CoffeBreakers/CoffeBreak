@@ -40,7 +40,7 @@ var Main = React.createClass({
     //   articles.push(temp);
     // }
 
-    return { user: {}, articles: articles, displayArticles: [], popoverExpanded: false};
+    return { user: {}, articles: articles, displayArticles: [], popoverExpanded: false, snackOpen: false};
   },
 
   //componentDidMount will run when the components load. This code will be run to get saved articles. 
@@ -128,6 +128,7 @@ var Main = React.createClass({
     helpers.updatePreferences(this.state.user).then(function(response)
     {
       console.log(response);
+      this.setState({snackOpen: true});
     }.bind(this));
   },
 
@@ -180,6 +181,12 @@ var Main = React.createClass({
       this.setState({'displayArticles': tempArticlesArray.slice(0)});
     }
   },
+  
+  closeSnack()
+  {
+    //console.log("signal received to close modal")
+    this.setState({snackOpen: false});
+  },
 
   // Here we describe this component's render method
   render: function() {
@@ -206,7 +213,7 @@ var Main = React.createClass({
             <Route exact path="/" component={() => <ArticlesChildren articles={this.state.displayArticles}/>}/>
             <Route path="/login" component={() => <LoginPage loginLocalUser={this.loginLocal} createAccount={this.createAccount} />} />
             <Route path="/profile" component={() => <ProfilePage user={this.state.user} preferenceToggle={this.preferenceToggle}
-              savePreferences={this.savePreferences} displayArticles={this.displayArticles}/>}/>
+              savePreferences={this.savePreferences} displayArticles={this.displayArticles} snackOpen={this.state.snackOpen} closeSnack={() => this.closeSnack()}/>}/>
           </div> {/* end jumbotron */}
 
 
