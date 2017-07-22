@@ -37,13 +37,25 @@ var UserSchema = new Schema({
     type: String
   },
 
-  world_news: 
+  world: 
   {
     type: Boolean,
     default: true
   },
 
+  national:
+  {
+    type: Boolean, 
+    default: true
+  },
+
   politics: 
+  {
+    type: Boolean,
+    default: true
+  },
+
+  technology:
   {
     type: Boolean,
     default: true
@@ -55,27 +67,16 @@ var UserSchema = new Schema({
     default: true
   },
 
-  movies: 
-  {
-    type: Boolean,
-    default: true
-  },
-
+  
   business: 
   {
     type: Boolean,
     default: true
   },
 
-  arts: 
+  entertainment:
   {
-    type: Boolean,
-    default: true
-  },
-
-  travel: 
-  {
-    type: Boolean,
+    type:Boolean,
     default: true
   },
 
@@ -85,11 +86,7 @@ var UserSchema = new Schema({
     default: true
   },
 
-  fashion: 
-  {
-    type: Boolean,
-    default: true
-  },
+  
 });
 
 // Create the Article model with the ArticleSchema

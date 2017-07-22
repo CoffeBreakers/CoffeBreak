@@ -40,7 +40,7 @@ var Main = React.createClass({
     //   articles.push(temp);
     // }
 
-    return { user: {}, articles: articles, popoverExpanded: false};
+    return { user: {}, articles: articles, displayArticles: [], popoverExpanded: false};
   },
 
   //componentDidMount will run when the components load. This code will be run to get saved articles. 
@@ -50,8 +50,10 @@ var Main = React.createClass({
     //We get the saved articles, then set results array with the response data which should be a list of all articles. 
     this.getUser();
     this.getArticles();
+    
   },
 
+  
   expandPopover: function(event){
     // console.log("expanding popover");
     //console.log(event.currentTarget);
@@ -134,7 +136,7 @@ var Main = React.createClass({
     helpers.getArticles().then(function(response)
     {
       console.log(response);
-      var articlesList = response.data.slice(0, 9);
+      var articlesList = response.data;
       articlesList.forEach(function(element)
       {
          if(element.img === null || element.img === undefined)
@@ -143,7 +145,29 @@ var Main = React.createClass({
          }
       });
       this.setState({articles: articlesList});
+      this.displayArticles();
     }.bind(this));
+  },
+
+  displayArticles: function()
+  {
+    var tempArticlesArray = []
+    if(this.state.user.user_name === undefined)
+    {
+      this.setState({'displayArticles': this.state.articles.slice(0)});
+    }
+    else
+    {
+      for(var i = 0; i < this.state.articles.length; i++)
+      {
+        console.log(this.state.articles[i].category);
+        if(this.state.user[this.state.articles[i].category]) //the user's preferences include the category that the article was in. 
+        {
+          tempArticlesArray.push(this.state.articles[i]);
+        }
+      }
+      this.setState({'displayArticles': tempArticlesArray.slice(0)});
+    }
   },
 
   // Here we describe this component's render method
@@ -168,10 +192,10 @@ var Main = React.createClass({
           
           <div className = "jumbotron">
 
-            <Route exact path="/" component={() => <ArticlesChildren articles={this.state.articles}/>}/>
+            <Route exact path="/" component={() => <ArticlesChildren articles={this.state.displayArticles}/>}/>
             <Route path="/login" component={() => <LoginPage loginLocalUser={this.loginLocal} createAccount={this.createAccount} />} />
             <Route path="/profile" component={() => <ProfilePage user={this.state.user} preferenceToggle={this.preferenceToggle}
-              savePreferences={this.savePreferences}/>}/>
+              savePreferences={this.savePreferences} displayArticles={this.displayArticles}/>}/>
           </div> {/* end jumbotron */}
 
 
