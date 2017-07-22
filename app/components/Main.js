@@ -137,10 +137,10 @@ var Main = React.createClass({
       var articlesList = response.data.slice(0, 9);
       articlesList.forEach(function(element)
       {
-        if(element.img === null || element.image === undefined)
-        {
-          element.img = "http://lorempixel.com/500/500";
-        }
+         if(element.img === null || element.img === undefined)
+         {
+           element.img = "http://lorempixel.com/500/500";
+         }
       });
       this.setState({articles: articlesList});
     }.bind(this));
