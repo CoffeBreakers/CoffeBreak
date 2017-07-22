@@ -40,7 +40,7 @@ module.exports = function(passport) {
 		passwordField:'password',
 		passReqToCallback:false
 	},
-	function(req,user_name,password,done){
+	function(user_name,password,done){
 		console.log("login route")
 		User.findOne({'local.user_name':user_name},function(err,user){
 				if(err)
@@ -48,7 +48,7 @@ module.exports = function(passport) {
 				if(user){
 					return done(null,false,req.flash("signupMessage","That username already taken"))
 				}
-				if(!req.user){
+				if(!user){
 					var newuser = new User();
 					newuser.user_name = user_name;
 					newuser.password = password;
@@ -86,13 +86,13 @@ module.exports = function(passport) {
 		passwordField:'password',
 		passReqToCallback:false
 	},
-	function(req,user_name,password,done){
+	function(user_name,password,done){
 		process.nextTick(function(){
 			User.findOne({'local.user_name':user_name},function(err,user){	
 				if(err)
 					return done(err);
 				if(!user)
-					return done(null,false,req.flash("loginMessage","No user found"))
+					return done(null,false, flash("loginMessage","No user found"))
 				
 				bcrypt.compare(password, user.password, function(err, res) {
 					
