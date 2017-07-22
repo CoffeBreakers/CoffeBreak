@@ -28,12 +28,12 @@ module.exports = function(app, db)
     app.get('/api/bingarticles', function(req, res)
     {
         //console.log(JSON.stringify(req.user));
-        console.log("in bingarticles");
+        //console.log("in bingarticles");
         let cutoff = new Date();
-        cutoff.setDate(cutoff.getDate()-1);
+        cutoff.setDate(cutoff.getDate()-2);
         Article.find({date: {$gte: cutoff}}, function(err, docs)
         {
-            console.log("in articles callback function");
+            //console.log("in articles callback function");
             if(err)
             {
                 console.log(err);
@@ -41,7 +41,7 @@ module.exports = function(app, db)
             }
             else
             {
-                console.log(docs);
+                //console.log(docs);
                 res.json(docs);
             }
         });
@@ -63,7 +63,7 @@ module.exports = function(app, db)
             {
                 
                 var parsedBody = JSON.parse(response.body);
-                console.log(JSON.stringify(parsedBody, null, 2));
+                //console.log(JSON.stringify(parsedBody, null, 2));
                 console.log('There are ' + parsedBody.value.length + ' articles in the response');
                 parsedBody.value.forEach(function(element)
                 {
