@@ -61,30 +61,56 @@ module.exports = function(app, db) {
         res.json(data);
       }
     });
-
   })
+
+  app.get("/api/delete-all", function(req, res) {
+    Article.remove({}, function(err, data)
+    {
+      if(err)
+      {
+        res.status(500).send(err)
+      }
+      else
+      {
+        res.json(data);
+      }
+    })
+  });
 
   app.get("/api/download-articles", function(req, res)
   {
-    var JSONobject = {
+    var categories = ['world', 'national', 'politics', 'business', 'technology', 'sports', 'science', 'movies', 'books', 'travel']
+      var timeout = 0;
+      for (var i = 0; i < categories.length; i++)
+      {
+        setTimeout(downloadCategory.bind(null, categories[i]), timeout);
+      }
+    res.redirect("/");
+  })
+
+  app.get("/api/download-articles/:category", function(req, res)
+  {
+    downloadCategory(req.params.category);
+    res.redirect("/");
+  });
+}
+
+function downloadCategory(category)
+{
+  console.log("getting category: " + category);
+  var JSONobject = {
       nytimes: null,
       summary: []
     };
-    var categories = ['business', 'movies', 'technology', 'books', 'travel']/* 'theater', 'automobiles', 'travel'
-      //*/
-    //var categories = ['business']
-    // console.log(req.body);
-    for (var i = 0; i < categories.length; i++) {
-      request.get({
-        url: "http://api.nytimes.com/svc/topstories/v2/" + categories[i] + ".json",
+  request.get({
+        url: "http://api.nytimes.com/svc/topstories/v2/" + category + ".json",
         qs: {
           'api-key': process.env.nyt_key || Secrets.config.nyt_key
         } 
       }, function(err, response, body) {
-        // console.log('body')
-        // console.log(body)
+        console.log(body)
         body = JSON.parse(body);
-        JSONobject.nytimes = body.results.slice(0, 2);
+        JSONobject.nytimes = body.results.slice(0, 3);
         //console.log('body: ', JSONobject.nytimes);
         //var title = body.results.slice(0,5)
         //res.send('success')
@@ -95,24 +121,36 @@ module.exports = function(app, db) {
           let url = "http://api.smmry.com/&SM_API_KEY=" + ((process.env.NODE_ENV) ? process.env.smmry_key : Secrets.config.smmry_key) + "&SM_LENGTH=5&SM_URL=" + article.url
           //  console.log("Results :", url)
           // console.log(`URL: ${ url }`)
-          console.log(url);
+          //console.log(url);
           request.get({url}, function(err, res, body) {
             // title = JSON.parse(url);
             //console.log('SUMMARIZEDDDD: ', JSON.parse(body));
             JSONobject.summary.push(JSON.parse(body));
 
-
+            //get the correct image url for the article. 
+            var tempImgURL;
+            for(var i = 0; i < article.multimedia.length; i++)
+            {
+              if(article.multimedia[i].format === 'mediumThreeByTwo210')
+              {
+                tempImgURL = article.multimedia[i].url;
+              }
+            }
+            //category preprocessing. in nytimes they call business: business day. 
+            //turn anything that doens't correspond to our category into one suitable for coffeebreak'
+            
+            
             //console.log('THIS IS JSONOBJECT: ', JSONobject);
             // SAVE TO DB
             var newArticle = new Article({
                 title: article.title,
                 date: article.published_date,
                 url: article.url,
-                category: article.section,
+                category: category,
                 text: JSON.parse(body).sm_api_content,
-                img: article.multimedia[0].url
+                img: tempImgURL
             })
-            console.log("new Article: " + JSON.stringify(newArticle, null, 2));
+            //console.log("new Article: " + JSON.stringify(newArticle, null, 2));
             Article.create(newArticle, function(err, doc) 
             {
             //newArticle.save(function(err, doc){
@@ -120,17 +158,12 @@ module.exports = function(app, db) {
                 console.log(err);
                 // res.status(500).send(err);
               } else {
-                console.log("DOCCCCC = ", doc);
+                //console.log("DOCCCCC = ", doc);
                 // res.json(doc);
               }
 
             })// end of article creation callback
           }) //end of smmry ajax call
         })
-      })
-    }
-    res.redirect("/");
-  })
+      }) //end of new york times api. 
 }
-//)body.results.slice(0,1)
-//}

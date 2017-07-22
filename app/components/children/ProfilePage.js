@@ -14,8 +14,6 @@ export default class ProfilePage extends React.Component {
 
   constructor(props) {
     super(props);
-
-    
   };
 
   componentDidMount()
@@ -33,6 +31,7 @@ export default class ProfilePage extends React.Component {
     event.preventDefault();
     console.log("saving preferences");
     this.props.savePreferences();
+    this.props.displayArticles();
   }
 
 // <Toggle onToggle={(event) => this.handleChange(event, 'encode')} style={styles.toggle} label="Encode" labelPosition="right" />
@@ -49,43 +48,39 @@ export default class ProfilePage extends React.Component {
         <Divider />
         <List>
             <Subheader>Your Preferences</Subheader>
-            
+           
             <ListItem primaryText="World News" rightToggle={<Toggle 
-                defaultToggled={this.props.user['world_news']}
-                onToggle={(event) => this.handleToggle(event, 'world_news')}
+                defaultToggled={this.props.user['world']}
+                onToggle={(event) => this.handleToggle(event, 'world')}
                 />} />
+            <hr/>
+            <ListItem primaryText="National News" rightToggle={<Toggle 
+              defaultToggled={this.props.user['national']}
+              onToggle={(event) => this.handleToggle(event, 'national')}/>} />
             <hr/>
             <ListItem primaryText="Politics" rightToggle={<Toggle 
               defaultToggled={this.props.user['politics']}
               onToggle={(event) => this.handleToggle(event, 'politics')}/>} />
             <hr/>
+            <ListItem primaryText="Technology" rightToggle={<Toggle 
+              defaultToggled={this.props.user['technology']}
+              onToggle={(event) => this.handleToggle(event, 'technology')}/>} />
+            <hr/>
             <ListItem primaryText="Science" rightToggle={<Toggle 
               defaultToggled={this.props.user['science']}
               onToggle={(event) => this.handleToggle(event, 'science')}/>} />
-            <hr/>
-            <ListItem primaryText="Movies" rightToggle={<Toggle 
-              defaultToggled={this.props.user['movies']}
-              onToggle={(event) => this.handleToggle(event, 'movies')}/>} />
             <hr/>
             <ListItem primaryText="Business" rightToggle={<Toggle 
               defaultToggled={this.props.user['business']}
               onToggle={(event) => this.handleToggle(event, 'business')}/>} />
             <hr/>
-            <ListItem primaryText="Arts" rightToggle={<Toggle 
-              defaultToggled={this.props.user['arts']}
-              onToggle={(event) => this.handleToggle(event, 'arts')}/>} />
-            <hr/>
-            <ListItem primaryText="Travel" rightToggle={<Toggle 
-              defaultToggled={this.props.user['travel']}
-              onToggle={(event) => this.handleToggle(event, 'travel')}/>} />
-            <hr/>
             <ListItem primaryText="Sports" rightToggle={<Toggle 
               defaultToggled={this.props.user['sports']}
               onToggle={(event) => this.handleToggle(event, 'sports')}/>} />
             <hr/>
-            <ListItem primaryText="Fashion" rightToggle={<Toggle 
-              defaultToggled={this.props.user['fashion']}
-              onToggle={(event) => this.handleToggle(event, 'fashion')}/>} />
+            <ListItem primaryText="Entertainment" rightToggle={<Toggle 
+              defaultToggled={this.props.user['entertainment']}
+              onToggle={(event) => this.handleToggle(event, 'entertainment')}/>} />
             <hr/>
         </List>
         <RaisedButton label="Save Preferences" primary={true} style={style} onClick={(event) => this.handleSavePreferences(event)}/>
