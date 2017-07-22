@@ -13,8 +13,9 @@ module.exports = function(app, db, passport)
 
     app.get('/api/user', function(req, res)
     {
-        console.log(req, res)
+        console.log("boo!")
         res.json(req.user);
+         res.redirect('/');
     });
 
     app.get('/logout', function(req, res)
@@ -23,9 +24,9 @@ module.exports = function(app, db, passport)
         res.redirect('/');
     });
 
-	// app.get('/signup',function(req,res){
-	// 	res.redirect("/",{message:req.flash('signupMessage')})
-	// })
+	app.get('/signup',function(req,res){
+		res.redirect("/",{message:req.flash('signupMessage')})
+	})
 
 	app.get('/login',function(req,res){
 		res.redirect("/",{message:req.flash("loginMessage")})
@@ -40,7 +41,7 @@ module.exports = function(app, db, passport)
 	app.post('/login', passport.authenticate('local-login', {
 		successRedirect: '/',
 		failureRedirect: '/login',
-		failureFlash: true
+		failureFlash: false
 	}));
 
 	app.get('/profile',function(req,res){

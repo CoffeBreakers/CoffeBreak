@@ -152,7 +152,7 @@ var Main = React.createClass({
       <div className="container">
 
           <AppBar
-            title= {<NameSlot user_name={this.state.user.user_name} />}
+            title= {<NameSlot user_name={this.state.user_name} />}
             iconElementLeft={<IconButton
               iconStyle={styles.mediumIcon}
               style={styles.medium}

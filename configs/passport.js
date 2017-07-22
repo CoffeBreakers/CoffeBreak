@@ -176,16 +176,16 @@ module.exports = function(passport) {
 				if(!user)
 					return done(null,false, flash("loginMessage","No user found"))
 				
-				bcrypt.compare(password, user.password, function(err, res) {
+				// bcrypt.compare(password, user.password, function(err, res) {
 					
-				   if(err) throw err;
-			   		if(res){
-			   			// console.log(req.user,"req")
-			   			return done(null, user);
-			   		} else {
-			   			return done(null, false, flash("loginMessage","Invalid password"));
-			   		}
-				});
+				//    if(err) throw err;
+			   	// 	if(res){
+			   	// 		// console.log(req.user,"req")
+			   	// 		return done(null, user);
+			   	// 	} else {
+			   	// 		return done(null, false, flash("loginMessage","Invalid password"));
+			   	// 	}
+				// });
 			})
 		})
 	})
