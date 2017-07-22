@@ -13,7 +13,7 @@ var ArticleSchema = new Schema({
   // date is a date type
   date: {
     type: Date,
-    required: false
+    required: true
   },
   // this saves the url
   url: {
