@@ -152,6 +152,7 @@ var Main = React.createClass({
   displayArticles: function()
   {
     var tempArticlesArray = []
+    var category;
     if(this.state.user.user_name === undefined)
     {
       this.setState({'displayArticles': this.state.articles.slice(0)});
@@ -161,10 +162,20 @@ var Main = React.createClass({
       for(var i = 0; i < this.state.articles.length; i++)
       {
         console.log(this.state.articles[i].category);
-        if(this.state.user[this.state.articles[i].category]) //the user's preferences include the category that the article was in. 
+        //make books, travel, and movies fit under entertainment category. 
+        if (this.state.articles[i].category === 'books' || this.state.articles[i].category === 'travel' || this.state.articles[i].category === 'movies')
+        {
+          category = 'entertainment';
+        }
+        else
+        {
+          category = this.state.articles[i].category; 
+        }
+        if(this.state.user[category]) //the user's preferences include the category that the article was in. 
         {
           tempArticlesArray.push(this.state.articles[i]);
         }
+        
       }
       this.setState({'displayArticles': tempArticlesArray.slice(0)});
     }

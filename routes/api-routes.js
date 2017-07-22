@@ -84,6 +84,7 @@ module.exports = function(app, db) {
       for (var i = 0; i < categories.length; i++)
       {
         setTimeout(downloadCategory.bind(null, categories[i]), timeout);
+        timeout += 7000;
       }
     res.redirect("/");
   })
