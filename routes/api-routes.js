@@ -92,9 +92,10 @@ module.exports = function(app, db) {
         //console.log(`typeof body: ${ typeof body }`);
         //for (var j=0; j<body.results.length; j++){
         JSONobject.nytimes.forEach((article) => {
-          let url = "http://api.smmry.com/&SM_API_KEY=" + (process.env) ? process.env.smmry_key : Secrets.config.smmry_key + "&SM_LENGTH=5&SM_URL=" + article.url
+          let url = "http://api.smmry.com/&SM_API_KEY=" + ((process.env.NODE_ENV) ? process.env.smmry_key : Secrets.config.smmry_key) + "&SM_LENGTH=5&SM_URL=" + article.url
           //  console.log("Results :", url)
           // console.log(`URL: ${ url }`)
+          console.log(url);
           request.get({url}, function(err, res, body) {
             // title = JSON.parse(url);
             //console.log('SUMMARIZEDDDD: ', JSON.parse(body));

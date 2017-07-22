@@ -13,7 +13,7 @@ var Article = require("./models/Article.js");
 var request = require("request");
 if (!process.env.NODE_ENV)
 {
-  var Secrets = require("../configs/secrets.js");
+  var Secrets = require("./configs/secrets.js");
 }
 // Set mongoose to leverage built in JavaScript ES6 Promises
 mongoose.Promise = Promise;
