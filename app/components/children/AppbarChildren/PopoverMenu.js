@@ -26,7 +26,7 @@ export default class PopoverMenu extends React.Component {
           onRequestClose={() => this.props.compressPopover()}
         >
           <Menu>
-            <MenuItem primaryText="Profile" containerElement={<Link to="/profile" onTouchTap={() => this.props.compressPopover()}/>}/>
+            <MenuItem primaryText="Profile" containerElement={<Link to="/profile" onTouchTap={this.props.compressPopover}/>}/>
             <MenuItem primaryText="Sign out" onTouchTap={()=> this.props.logOut()}/>
           </Menu>
         </Popover>

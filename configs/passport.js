@@ -35,12 +35,12 @@ module.exports = function(passport) {
     // LOCAL ==================================================================
     // =========================================================================
 
-    	passport.use('local-signup',new LocalStrategy({
+    passport.use('local-signup',new LocalStrategy({
 		usernameField:'user_name',
 		passwordField:'password',
-		passReqToCallback:false
+		passReqToCallback:true
 	},
-	function(user_name, password, done){
+	function(req, user_name, password, done){
 		console.log("login route")
 		User.findOne({'user_name':user_name},function(err,user){
 				if(err)
@@ -51,9 +51,8 @@ module.exports = function(passport) {
 				if(!user){
 					var newuser = new User();
 					newuser.user_name = user_name;
-					newuser.password = password;
 					bcrypt.genSalt(10, function(err, salt) {
-					    bcrypt.hash(newuser.password, salt, function(err, hash) {
+					    bcrypt.hash(password, salt, function(err, hash) {
 					    	
 					        newuser.password = hash;
 					        console.log(newuser,"newuser")
@@ -63,17 +62,6 @@ module.exports = function(passport) {
 							})
 					    });
 					});
-				}else{
-					var newuser = req.user;
-					console.log(newuser,"newuser")
-					newuser.user_name = user_name;
-					newuser.password = password;
-					newuser.save(function(err){
-	    				if(err)
-	    					throw err;
-	    				return done(null,newuser)
-
-	    			})
 				}
 			})
 		
@@ -84,11 +72,14 @@ module.exports = function(passport) {
 	passport.use("local-login",new LocalStrategy({
 		usernameField:'user_name',
 		passwordField:'password',
-		passReqToCallback:false
+		passReqToCallback: true
 	},
-	function(user_name,password,done){
+	function(req, user_name, password, done){
+        console.log("Logging in user");
+        console.log("user_name: " + user_name);
+        console.log("password: " + password);
 		process.nextTick(function(){
-			User.findOne({'user_name':user_name},function(err,user){	
+			User.findOne({'user_name': user_name},function(err,user){	
 				if(err)
 					return done(err);
 				if(!user)

@@ -3,6 +3,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Divider from 'material-ui/Divider';
 
+import {
+  Redirect,
+} from 'react-router-dom'
 export default class LoginPage extends React.Component {
 
   constructor(props) {
@@ -47,6 +50,16 @@ export default class LoginPage extends React.Component {
 
 
   render() {
+    if(this.props.user.user_name)
+    {
+      return (
+        <Redirect to={{
+        pathname: '/',
+        }}/>
+      )
+    }
+    else
+    {
       return (
         <div>
           <TextField
@@ -67,7 +80,8 @@ export default class LoginPage extends React.Component {
           <Divider />
           <RaisedButton label="Sign in to Google" primary={true} style={style} onClick={(event) => this.goToGoogle(event)}/>
         </div>
-      )
+        )
+      }
   }
 
 }

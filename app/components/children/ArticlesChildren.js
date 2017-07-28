@@ -8,7 +8,7 @@ import Subheader from 'material-ui/Subheader';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import NavigationExpandMore from 'material-ui/svg-icons/navigation/expand-more'
 import Dialog from 'material-ui/Dialog';
-
+import Paper from 'material-ui/Paper';
 //include the article modal
 import ArticleModal from "./ArticleModal";
 
@@ -44,26 +44,28 @@ closeModal()
     
     return (
         <div style={styles.root}>
-            <GridList
-            cellHeight={250}
-            cols={3}
-            style={styles.gridList}
-            >
-            <Subheader>Your News Summaries</Subheader>
-            {this.props.articles.map((article) => (
-                <GridTile
-                key={article.title}
-                title={<a href= {article.url}>{article.title}</a>}
-                subtitle={<span>Category: <b>{article.category}</b>, Published on: <b>{article.date}</b></span>}
-                actionIcon={<IconButton><NavigationExpandMore color="white" /></IconButton>}
-                titleBackground="linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
-                onTouchTap={() => this.handleTouchTap(article)}
-                >
-                <img src={article.img} />
-                </GridTile>
-            ))}
-            </GridList>
-            <ArticleModal closeModal= {() => this.closeModal()} article={this.state.SelectedArticle} open={this.state.ModalOpen}/>
+          <Paper style={paperStyles} zDepth={2}>
+              <GridList
+              cellHeight={250}
+              cols={3}
+              style={styles.gridList}
+              >
+              <Subheader>Your News Summaries</Subheader>
+              {this.props.articles.map((article) => (
+                  <GridTile
+                  key={article.title}
+                  title={<a href= {article.url} target="_blank">{article.title}</a>}
+                  subtitle={<span>Category: <b>{article.category}</b>, Published on: <b>{article.date}</b></span>}
+                  actionIcon={<IconButton><NavigationExpandMore color="white" /></IconButton>}
+                  titleBackground="linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
+                  onTouchTap={() => this.handleTouchTap(article)}
+                  >
+                  <img src={article.img} />
+                  </GridTile>
+              ))}
+              </GridList>
+              <ArticleModal closeModal= {() => this.closeModal()} article={this.state.SelectedArticle} open={this.state.ModalOpen}/>
+            </Paper>
         </div>
     );
   }
@@ -77,6 +79,7 @@ const styles = {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
+    padding: 0,
   },
   gridList: {
     // width: 500,
@@ -84,6 +87,13 @@ const styles = {
     flexWrap: 'wrap',
     overflowY: 'auto',
   },
+};
+
+const paperStyles = {
+  margin: 5,
+  padding: 5,
+  textAlign: 'center',
+  display: 'inline-block',
 };
 
 

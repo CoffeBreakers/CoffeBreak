@@ -63,3 +63,5 @@ secrets.js
 #bundle
 bundle.js
 
+#vscode
+vscode
