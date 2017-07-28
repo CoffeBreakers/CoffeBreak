@@ -40,9 +40,9 @@ module.exports = function(passport) {
 		passwordField:'password',
 		passReqToCallback:false
 	},
-	function(user_name,password,done){
+	function(user_name, password, done){
 		console.log("login route")
-		User.findOne({'local.user_name':user_name},function(err,user){
+		User.findOne({'user_name':user_name},function(err,user){
 				if(err)
 					return done(err);
 				if(user){
@@ -66,7 +66,7 @@ module.exports = function(passport) {
 				}else{
 					var newuser = req.user;
 					console.log(newuser,"newuser")
-					newuser.user_name = email;
+					newuser.user_name = user_name;
 					newuser.password = password;
 					newuser.save(function(err){
 	    				if(err)
@@ -88,7 +88,7 @@ module.exports = function(passport) {
 	},
 	function(user_name,password,done){
 		process.nextTick(function(){
-			User.findOne({'local.user_name':user_name},function(err,user){	
+			User.findOne({'user_name':user_name},function(err,user){	
 				if(err)
 					return done(err);
 				if(!user)
