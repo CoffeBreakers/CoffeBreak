@@ -33,19 +33,15 @@ module.exports = function(app, db, passport)
 
 	app.post('/signup', passport.authenticate('local-signup', {
 		successRedirect: '/',
-		failureRedirect: '/login',
+		failureRedirect: '/',
 		failureFlash: true
 	}));
 
 	app.post('/login', passport.authenticate('local-login', {
 		successRedirect: '/',
-		failureRedirect: '/login',
+		failureRedirect: '/',
 		failureFlash: false
 	}));
-
-	app.get('/profile',function(req,res){
-		res.render("profile",{user:req.user})
-	})
 
 
 }
