@@ -21,6 +21,7 @@ import {
   Route,
   Link
 } from 'react-router-dom'
+import { browserHistory } from 'react-router'
 
 // Helper Function
 var helpers = require("./utils/helpers.js");
@@ -68,11 +69,17 @@ var Main = React.createClass({
     this.setState({popoverExpanded: false});
   },
 
+  contextTypes: {
+    router: React.PropTypes.object
+  },
+
   logOut: function(){
+    //this.props.history.push("/");
     helpers.logoutUser().then(function(response)
     {
       this.setState({user: {}});
       this.compressPopover();
+      this.displayArticles();
     }.bind(this));
   },
 
@@ -87,7 +94,7 @@ var Main = React.createClass({
   createAccount: function(user){
     helpers.createUser(user).then(function(response)
     {
-      this.setState({"user": this.getUser()});
+      this.getUser();
     }.bind(this));
   },
 
@@ -102,7 +109,7 @@ var Main = React.createClass({
   {
     helpers.getUser().then(function(response)
     {
-      //console.log("getting user");
+      console.log("getting user");
       if(response.data !== this.state.history)
       {
         //console.log(response);
@@ -112,6 +119,7 @@ var Main = React.createClass({
         }
         else
         {
+          console.log(JSON.stringify(response.data));
           this.setState({user: response.data});
         }
       }
@@ -136,7 +144,7 @@ var Main = React.createClass({
   {
     helpers.getArticles().then(function(response)
     {
-      console.log(response);
+      //console.log(response);
       var articlesList = response.data;
       articlesList.forEach(function(element)
       {
@@ -162,7 +170,7 @@ var Main = React.createClass({
     {
       for(var i = 0; i < this.state.articles.length; i++)
       {
-        console.log(this.state.articles[i].category);
+       // console.log(this.state.articles[i].category);
         //make books, travel, and movies fit under entertainment category. 
         if (this.state.articles[i].category === 'books' || this.state.articles[i].category === 'travel' || this.state.articles[i].category === 'movies')
         {
@@ -211,7 +219,7 @@ var Main = React.createClass({
           <div className = "jumbotron">
 
             <Route exact path="/" component={() => <ArticlesChildren articles={this.state.displayArticles}/>}/>
-            <Route path="/login" component={() => <LoginPage loginLocalUser={this.loginLocal} createAccount={this.createAccount} />} />
+            <Route path="/login" component={() => <LoginPage loginLocalUser={this.loginLocal} createAccount={this.createAccount} user={this.state.user}/>} />
             <Route path="/profile" component={() => <ProfilePage user={this.state.user} preferenceToggle={this.preferenceToggle}
               savePreferences={this.savePreferences} displayArticles={this.displayArticles} snackOpen={this.state.snackOpen} closeSnack={() => this.closeSnack()}/>}/>
           </div> {/* end jumbotron */}

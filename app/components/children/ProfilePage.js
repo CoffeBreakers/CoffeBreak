@@ -9,6 +9,13 @@ import ActionInfo from 'material-ui/svg-icons/action/info';
 import Subheader from 'material-ui/Subheader';
 import Toggle from 'material-ui/Toggle';
 import RaisedButton from 'material-ui/RaisedButton';
+import {
+  deepOrange300,
+  purple500,
+} from 'material-ui/styles/colors';
+import {
+  Redirect,
+} from 'react-router-dom'
 
 //import snackbar that appears from the bottom. 
 import ProfileSnackBar from './ProfileChildren/ProfileSnackBar';
@@ -43,6 +50,14 @@ export default class ProfilePage extends React.Component {
 // handleChange(event, state) { console.log(state, event.target.value); this.setState({ [state]: event.target.value }); }
 
   render() {
+    if (!this.props.user.user_name)
+    {
+      return (
+        <Redirect to={{
+        pathname: '/',
+        }}/>
+      )
+    }
       return (
       <div>
         <List>
@@ -50,16 +65,16 @@ export default class ProfilePage extends React.Component {
                       leftAvatar={(this.props.user.photo)?
                                   <Avatar 
                                   src={this.props.user.photo} 
-                                  style={style}
+                                  style={avatarStyle}
                                   />
                                   :
                                   <Avatar
                                   color={deepOrange300}
                                   backgroundColor={purple500}
                                   size={30}
-                                  style={style}
+                                  style={avatarStyle}
                                   >
-                                    {this.props.user_name[0]}
+                                    {this.props.user.user_name[0]}
                                   </Avatar>}/>
             
         </List>
@@ -112,3 +127,5 @@ export default class ProfilePage extends React.Component {
 const style = {
   margin: 15,
 };
+
+const avatarStyle = {margin: 'auto'};
